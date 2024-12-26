@@ -18,7 +18,7 @@ const siderStyle = {
     </a-layout-sider>
     <a-layout>
 
-      <a-layout-content :style="contentStyle" class="overflow-auto p-4">
+      <a-layout-content :style="contentStyle" class="overflow-auto p-6">
         <router-view/>
       </a-layout-content>
     </a-layout>
