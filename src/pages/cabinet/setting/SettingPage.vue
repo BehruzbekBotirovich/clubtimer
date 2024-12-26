@@ -1,4 +1,5 @@
 <template>
 
-    taks page here its
+    settings
+
 </template>
