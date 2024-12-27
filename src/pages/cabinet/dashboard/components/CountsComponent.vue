@@ -1,6 +1,6 @@
 <template>
     <a-col :lg="16">
-        <div class="flex  bg-white shadow-md rounded-3xl p-4">
+        <div class="flex  bg-white shadow-md rounded-2xl p-4">
             <!-- Earning Card -->
             <div class="flex w-1/3 justify-center items-center gap-4 border-r pr-4">
                 <div class="w-h-20 h-20 rounded-full bg-green-100 flex items-center justify-center">

@@ -4,6 +4,7 @@ import './styles/base.scss'; // Import global SCSS here
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
+import VueApexCharts from "vue3-apexcharts";
 
 // depends
 import App from './App.vue'
@@ -15,6 +16,7 @@ const app = createApp(App)
 app.use(createPinia())
 app.use(router)
 app.use(Antd);
+app.component("VueApexCharts", VueApexCharts);
 
 
 app.mount('#app')

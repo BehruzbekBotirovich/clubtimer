@@ -10,10 +10,13 @@
   },
   "dependencies": {
     "ant-design-vue": "^4.2.6",
+    "apexcharts": "^4.3.0",
+    "axios": "^1.7.9",
     "dayjs": "^1.11.13",
     "pinia": "^2.2.6",
     "vue": "^3.5.12",
-    "vue-router": "^4.4.5"
+    "vue-router": "^4.4.5",
+    "vue3-apexcharts": "^1.8.0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.1.4",
