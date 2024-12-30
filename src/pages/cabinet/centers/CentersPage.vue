@@ -1,42 +1,26 @@
 <template>
-    <!-- search -->
+  <div class="flex items-center justify-between">
+    <h1 class="text-2xl font-semibold py-6">Centers ({{ centersStore.centers.length }})</h1>
     <div>
-        <a-row>
-            <a-col> </a-col>
-        </a-row>
+      <a-input-search v-model:value="value" size="large" placeholder="Search" enter-button @search="onSearch"
+        class="w-80 mr-4" />
+      <button class="add-button shadow-lg"> Add Place </button>
     </div>
-
-    <!-- table -->
-    <div>
-        <a-table :columns="columns" :data-source="teachersList" rowKey="id">
-            <template #bodyCell="{ column, record }">
-                <template v-if="column.key === 'fio'">
-                    <router-link v-if="!regionId" :to="``">
-                        {{ record[column.key] }}
-                    </router-link>
-
-                </template>
-
-            </template>
-
-        </a-table>
-
-    </div>
+  </div>
+  <div>
+    <a-row :gutter="[24, 24]">
+      <center-card :data="centersStore.centers" />
+    </a-row>
+  </div>
 </template>
 
 <script setup>
-import { useTeachersStore } from '@/stores/teachers.pinia';
+import { useCenterStore } from "@/stores/center.pinia.js";
+import CenterCard from "./components/CenterCard.vue";
 
-// Получение данных из хранилища
-const store = useTeachersStore();
-const teachersList = store.teachersList;
 
-// Определение столбцов таблицы
-const columns = [
-    { title: 'Name', dataIndex: 'fio' },
-    { title: 'Age', dataIndex: 'age' },
-    { title: 'Address', dataIndex: 'address' },
-    { title: 'Kafedra', dataIndex: 'cafedra' },
-    { title: 'Number', dataIndex: 'number' }
-];
+const centersStore = useCenterStore();
+
 </script>
+
+<style lang="scss" scoped></style>

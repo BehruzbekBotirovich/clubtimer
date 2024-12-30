@@ -43,6 +43,12 @@ const router = createRouter({
                     name: 'centers',
                     component: () => import("@/pages/cabinet/centers/CentersPage.vue")
                 },
+                {
+                    path: 'centers/:id',
+                    name: 'center-info',
+                    component: () => import("@/pages/cabinet/centers/components/CenterInfo.vue")
+                },
+
 
                 {
                     path: 'setting',

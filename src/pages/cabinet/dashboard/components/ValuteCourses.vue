@@ -117,7 +117,7 @@ const displayedCurrencies = ref([
 const fetchCurrencyData = async () => {
     try {
         const response = await axios.get("https://api.exchangeratesapi.io/v1/latest", {
-            params: { access_key: "45185b004d86bb5e56a5bd20fc22e146" },
+            params: { access_key: "3343b8d9d183e8e05fe42c5415d9fab2" },
         });
 
         const rates = response.data.rates;

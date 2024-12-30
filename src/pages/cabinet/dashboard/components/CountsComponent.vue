@@ -3,7 +3,7 @@
         <div class="flex  bg-white shadow-md rounded-2xl p-4">
             <!-- Earning Card -->
             <div class="flex w-1/3 justify-center items-center gap-4 border-r pr-4">
-                <div class="w-h-20 h-20 rounded-full bg-green-100 flex items-center justify-center">
+                <div class="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center">
                     <svg width="86" height="84" viewBox="0 0 86 84" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <ellipse cx="43.3017" cy="42" rx="42.5207" ry="42" fill="url(#paint0_linear_430_9)" />
                         <path
@@ -39,7 +39,7 @@
 
             <!-- Balance Card -->
             <div class="flex w-1/3 justify-center items-center gap-4 border-r px-4">
-                <div class="w-h-20 h-20 rounded-full bg-blue-100 flex items-center justify-center">
+                <div class="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center">
                     <svg width="86" height="84" viewBox="0 0 86 84" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <ellipse cx="43.2563" cy="42" rx="42.5207" ry="42" fill="url(#paint0_linear_430_25)" />
                         <path
@@ -75,7 +75,7 @@
 
             <!-- Total Sales Card -->
             <div class="flex w-1/3 justify-center items-center gap-4 px-4">
-                <div class="w-h-20 h-20 rounded-full bg-red-100 flex items-center justify-center">
+                <div class="w-16 h-16 rounded-full bg-red-100 flex items-center justify-center">
                     <svg width="86" height="84" viewBox="0 0 86 84" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <ellipse cx="43.2107" cy="42" rx="42.5207" ry="42" fill="url(#paint0_linear_430_41)" />
                         <path

@@ -58,3 +58,21 @@
     max-width: 1820px;
   }
 }
+
+.add-button {
+  position: relative;
+  background: #3F8CFF;
+  color: white;
+  border-radius: 14px;
+  padding: 10px 40px;
+  height: fit-content;
+
+  &::before {
+    content: '+';
+    color: white;
+    position: absolute;
+    font-size: 20px;
+    top: 4px;
+    left: 20px;
+  }
+}

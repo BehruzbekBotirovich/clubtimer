@@ -1,5 +1,5 @@
 //styles
-import '@/styles/tailwind.css';
+import '@/styles/tailwind.scss';
 import './styles/base.scss'; // Import global SCSS here
 
 import { createApp } from 'vue'
