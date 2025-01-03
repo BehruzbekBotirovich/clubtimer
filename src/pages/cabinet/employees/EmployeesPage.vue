@@ -1,6 +1,6 @@
 <template>
     <div class="flex items-center justify-between">
-        <h1 class="text-2xl font-semibold py-6">Employees (9)</h1>
+        <h1 class="text-2xl font-semibold py-6">Employees ({{ employeeStore.employees.length }})</h1>
         <div>
             <a-input-search v-model:value="value" size="large" placeholder="Search" enter-button @search="onSearch"
                 class="w-80 mr-4" />
