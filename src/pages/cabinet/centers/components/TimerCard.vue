@@ -21,10 +21,14 @@
             <a-col :lg="16" class="w-full">
                 <!-- Timer Display -->
                 <div class="space-y-4 mb-4">
-                    <div class="timer-display">{{ formattedTime }}</div>
+                    <div :class="progress <= 20 ? 'bg-green-500' : progress <= 80 ? 'bg-yellow-500' : 'bg-red-600'"
+                        class="timer-display">{{ formattedTime }}</div>
                     <div class="w-full bg-gray-200 rounded-full h-2">
-                        <div class="bg-yellow-500 h-2 rounded-full transition-all" :style="{ width: `${progress}%` }">
+                        <div :class="progress <= 20 ? 'bg-green-500' : progress <= 80 ? 'bg-yellow-500' : 'bg-red-600'"
+                            class="h-2 rounded-full transition-all overflow-hidden" :style="{ width: `${progress}%` }">
                         </div>
+
+
                     </div>
                 </div>
 
@@ -91,7 +95,7 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from "vue";
 
-const totalSeconds = 3600; // Total time in seconds (e.g., 1 hour)
+const totalSeconds = 60; // Total time in seconds (e.g., 1 hour)
 const elapsedSeconds = ref(0);
 
 // Timer logic
@@ -106,6 +110,9 @@ onMounted(() => {
 
 onUnmounted(() => {
     clearInterval(timer);
+    setInterval(() => {
+        console.log(progress.value)
+    }, 2000)
 });
 
 // Computed properties
@@ -121,7 +128,7 @@ const formattedTime = computed(() => {
 const progress = computed(() => (elapsedSeconds.value / totalSeconds) * 100);
 
 const startTime = "19:20"; // Static example time, replace with dynamic data if needed
-const endTime = "20:20"; // Static example time
+const endTime = "19:22"; // Static example time
 </script>
 
 <style scoped>

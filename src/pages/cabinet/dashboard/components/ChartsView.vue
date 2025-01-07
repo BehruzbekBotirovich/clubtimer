@@ -11,7 +11,7 @@
     <!-- Donut Chart -->
     <a-col :lg="5">
         <div class="bg-white p-6 rounded-2xl shadow-md h-full">
-            <h3 class="text-lg font-bold mb-2">Chart by Stuff Types</h3>
+            <h3 class="text-lg font-bold my-10">Chart by Stuff Types</h3>
             <VueApexCharts type="donut" :options="donutOptions" :series="donutSeries" />
         </div>
     </a-col>

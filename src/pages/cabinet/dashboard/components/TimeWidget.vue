@@ -33,6 +33,11 @@ const city = "Tashkent"
 const currentTime = ref("");
 const currentDate = ref("");
 
+const timeFunc = () => {
+    // Update time and date
+    currentTime.value = dayjs().format("hh:mm A");
+    currentDate.value = dayjs().format("DD.MM.YYYY | dddd");
+}
 onMounted(async () => {
     // Fetch the current weather from OpenWeather API
     const apiKey = "1e3b7d34001f9a7d4dd03bbdb5a19567";
@@ -44,10 +49,8 @@ onMounted(async () => {
     weather.value.temp = Math.round(data.main.temp);
     weather.value.icon = data.weather[0].icon;
     weather.value.description = data.weather[0].description;
-
-    // Update time and date
-    currentTime.value = dayjs().format("hh:mm A");
-    currentDate.value = dayjs().format("DD.MM.YYYY | dddd");
+    timeFunc() 
+    setInterval(timeFunc, 10000);
 });
 </script>
 <style scoped></style>
