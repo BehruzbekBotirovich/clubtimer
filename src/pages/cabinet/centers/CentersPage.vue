@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center justify-between">
+  <div class="flex items-center justify-between mb-2">
     <h1 class="text-2xl font-semibold py-6">Centers ({{ centersStore.centers.length }})</h1>
     <div>
       <a-input-search v-model:value="value" size="large" placeholder="Search" enter-button @search="onSearch"

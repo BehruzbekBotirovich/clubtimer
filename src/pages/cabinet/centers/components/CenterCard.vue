@@ -1,6 +1,6 @@
 <template>
   <a-col v-for="el in data" :key="el.id" :lg="6">
-    <a-card class="rounded-lg shadow-lg overflow-hidden border border-gray-200" hoverable>
+    <a-card class="rounded-xl shadow-lg overflow-hidden border border-gray-200" hoverable>
       <template #cover>
         <img alt="example" :src="el.img" style="aspect-ratio: 3/2; object-fit: cover;" />
       </template>
@@ -101,9 +101,9 @@
           </div>
         </div>
       </div>
-      <div class="p-4 pb-0">
+      <div class=" mt-4 ">
         <router-link :to="{ name: 'center-info', params: { id: el.id } }">
-          <a-button type="primary" block>Details</a-button>
+          <a-button type="primary" class="w-full">Details</a-button>
         </router-link>
       </div>
     </a-card>
@@ -115,7 +115,6 @@
 </template>
 
 <script setup>
-import { arrayType } from 'ant-design-vue/es/_util/type';
 import { defineProps, ref } from 'vue';
 const props = defineProps({
   data: {
@@ -128,5 +127,4 @@ const props = defineProps({
 </script>
 
 <style scoped>
-/* You can add custom styles if needed */
 </style>

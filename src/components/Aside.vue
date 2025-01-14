@@ -8,7 +8,7 @@
 
     <a-menu mode="inline" default-selected-keys="['1']">
 
-      <router-link to="dashboard">
+      <router-link to="/cabinet/dashboard">
         <a-menu-item key="1" :class="{ 'ant-menu-item-selected': $route.path === '/cabinet/dashboard' }">
           <div class="flex items-center gap-2">
             <dashboard-icon /> Dashboard
@@ -16,7 +16,7 @@
         </a-menu-item>
       </router-link>
 
-      <router-link to="centers">
+      <router-link to="/cabinet/centers">
         <a-menu-item key="2" :class="{ 'ant-menu-item-selected': $route.path === '/cabinet/centers' }">
 
           <div class="flex items-center gap-2">
@@ -26,7 +26,7 @@
         </a-menu-item>
       </router-link>
 
-      <router-link to="employees">
+      <router-link to="/cabinet/employees">
         <a-menu-item key="3" :class="{ 'ant-menu-item-selected': $route.path === '/cabinet/employees' }">
           <div class="flex items-center gap-2">
             <employee-icon /> <span>Employees</span>
@@ -34,7 +34,7 @@
         </a-menu-item>
       </router-link>
 
-      <RouterLink to="income">
+      <RouterLink to="/cabinet/income">
         <a-menu-item key="5" :class="{ 'ant-menu-item-selected': $route.path === '/cabinet/income' }">
           <div class="flex items-center gap-2">
             <income-icon /> <span>Income</span>
@@ -42,7 +42,7 @@
         </a-menu-item>
       </RouterLink>
 
-      <RouterLink to="setting">
+      <RouterLink to="/cabinet/setting">
         <a-menu-item key="6" :class="{ 'ant-menu-item-selected': $route.path === '/cabinet/setting' }">
           <div class="flex items-center gap-2">
             <setting-icon /> <span>Settings</span>
