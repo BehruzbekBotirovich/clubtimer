@@ -9,7 +9,7 @@ export const useEmployeesStore = defineStore('employees', {
                 location: "Warehouse 1",
                 birthday: 'Apr 12, 1998',
                 price: 1500,
-                img: '/src/assets/removeit/ava1.jpg',
+                img: new URL('@/assets/removeit/ava1.jpg', import.meta.url).href,
                 position: "Admin",
                 working_time: "11:00 - 22:00",
                 number: '+998 90 000 11 22',
