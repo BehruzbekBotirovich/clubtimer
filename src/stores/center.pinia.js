@@ -8,7 +8,7 @@ export const useCenterStore = defineStore('center', {
                 name: "Item A",
                 location: "Warehouse 1",
                 price: 1500,
-                img: '/src/assets/removeit/club2.jpg',
+                img: new URL('@/assets/removeit/club2.jpg', import.meta.url).href,
                 stuff: [
                     { count: 2, name: "PS4" },
                     { count: 3, name: "Billiard" },
@@ -20,7 +20,7 @@ export const useCenterStore = defineStore('center', {
                 name: "Item B",
                 location: "Warehouse 2",
                 price: 2500,
-                img: '/src/assets/removeit/club3.jpg',
+                img: new URL('@/assets/removeit/club3.jpg', import.meta.url).href,
                 stuff: [
                     { count: 2, name: "PS4" },
                     { count: 3, name: "Billiard" },
@@ -32,7 +32,7 @@ export const useCenterStore = defineStore('center', {
                 name: "Item C",
                 location: "Warehouse 3",
                 price: 3200,
-                img: '/src/assets/removeit/club4.jpg',
+                img: new URL('@/assets/removeit/club4.jpg', import.meta.url).href,
                 stuff: [
                     { count: 2, name: "PS4" },
                     { count: 3, name: "Billiard" },
@@ -44,7 +44,7 @@ export const useCenterStore = defineStore('center', {
                 name: "Item D",
                 location: "Warehouse 4",
                 price: 1800,
-                img: '/src/assets/removeit/club5.jpg',
+                img: new URL('@/assets/removeit/club5.jpg', import.meta.url).href,
                 stuff: [
                     { count: 2, name: "PS4" },
                     { count: 3, name: "Billiard" },
@@ -56,7 +56,7 @@ export const useCenterStore = defineStore('center', {
                 name: "Item E",
                 location: "Warehouse 5",
                 price: 2800,
-                img: '/src/assets/removeit/club2.jpg',
+                img: new URL('@/assets/removeit/club2.jpg', import.meta.url).href,
                 stuff: [
                     { count: 2, name: "PS4" },
                     { count: 3, name: "Billiard" },
@@ -68,14 +68,14 @@ export const useCenterStore = defineStore('center', {
                 name: "Item F",
                 location: "Warehouse 6",
                 price: 2000,
-                img: '/src/assets/removeit/club3.jpg',
+                img: new URL('@/assets/removeit/club4.jpg', import.meta.url).href,
                 stuff: [
                     { count: 2, name: "PS4" },
                     { count: 3, name: "Billiard" },
                     { count: 3, name: "Caraoke room" }
                 ],
             },
-            
+
         ]
     }),
     actions: {},

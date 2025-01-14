@@ -3,7 +3,7 @@ import { ref } from 'vue'
 const dataSource = [
     {
         key: '1',
-        image: '/src/assets/removeit/club2.jpg',
+        image: new URL('@/assets/removeit/club2.jpg', import.meta.url).href,
         name: 'Name',
         description: 'description place',
         stock: '32 in stock',
@@ -12,7 +12,7 @@ const dataSource = [
     },
     {
         key: '2',
-        image: '/src/assets/removeit/club3.jpg',
+        image: new URL('@/assets/removeit/club3.jpg', import.meta.url).href,
         name: 'Name',
         description: 'location',
         stock: '20 in stock',
@@ -21,7 +21,7 @@ const dataSource = [
     },
     {
         key: '3',
-        image: '/src/assets/removeit/club4.jpg',
+        image: new URL('@/assets/removeit/club4.jpg', import.meta.url).href,
         name: 'Name',
         description: 'location',
         stock: '10 in stock',
@@ -30,7 +30,7 @@ const dataSource = [
     },
     {
         key: '4',
-        image: '/src/assets/removeit/club5.jpg',
+        image: new URL('@/assets/removeit/club5.jpg', import.meta.url).href,
         name: 'Name',
         description: 'location',
         stock: '20 in stock',
