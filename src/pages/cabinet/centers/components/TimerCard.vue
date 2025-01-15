@@ -6,7 +6,7 @@
         <div class="flex justify-center items-center w-full">
           <ps-timer v-if="props.type ==='console' "/>
           <board-timer v-if="props.type==='board'"/>
-          <img v-if="props.type==='karaoke'" src="@/components/icons/KaraokeTimer.png" style="height:90px"/>
+          <img v-if="props.type==='karaoke'" alt="karaoke" src="@/components/icons/KaraokeTimer.png" style="height:90px"/>
         </div>
         <h3 class="text-2xl font-bold text-gray-700 text-center mt-2 mb-6">{{ name }}</h3>
         <p class="flex items-center gap-2 text-center">
