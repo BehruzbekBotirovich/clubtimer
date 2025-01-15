@@ -6,18 +6,18 @@ const dataSource = [
         image: new URL('@/assets/removeit/club2.jpg', import.meta.url).href,
         name: 'Name',
         description: 'description place',
-        stock: '32 in stock',
-        income: '$ 45.99',
-        orders: 20,
+        stock: '12 in stock',
+        income: '$ 45',
+        orders: 22,
     },
     {
         key: '2',
         image: new URL('@/assets/removeit/club3.jpg', import.meta.url).href,
         name: 'Name',
         description: 'location',
-        stock: '20 in stock',
-        income: '$ 45.99',
-        orders: 20,
+        stock: '6 in stock',
+        income: '$ 41.2',
+        orders: 12,
     },
     {
         key: '3',
@@ -25,17 +25,17 @@ const dataSource = [
         name: 'Name',
         description: 'location',
         stock: '10 in stock',
-        income: '$ 45.99',
-        orders: 20,
+        income: '$ 35.2',
+        orders: 14,
     },
     {
         key: '4',
         image: new URL('@/assets/removeit/club5.jpg', import.meta.url).href,
         name: 'Name',
         description: 'location',
-        stock: '20 in stock',
-        income: '$ 45.99',
-        orders: 20,
+        stock: '11 in stock',
+        income: '$ 30',
+        orders: 12,
     },
 ];
 
@@ -83,11 +83,6 @@ const setFilterQuery = () => {
         <div class="flex items-center justify-between mb-4">
             <h2 class="text-lg font-semibold">The most active</h2>
             <div class="flex items-center gap-4">
-                <a-input class="rounded-lg" placeholder="Search">
-                    <template #prefix>
-                        <SearchOutlined />
-                    </template>
-                </a-input>
                 <a-select @change="setFilterQuery" v-model:value="selectedTime" show-search class="w-60"
                     :options="timeOptions"></a-select>
             </div>

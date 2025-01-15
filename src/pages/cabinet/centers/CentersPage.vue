@@ -8,7 +8,7 @@
     </div>
   </div>
   <div>
-    <a-row :gutter="[24, 24]">
+    <a-row :gutter="[20, 20]">
       <center-card :data="centersStore.centers" />
     </a-row>
   </div>

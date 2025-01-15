@@ -11,8 +11,8 @@
     <!-- Donut Chart -->
     <a-col :lg="5">
         <div class="bg-white p-6 rounded-2xl shadow-md h-full">
-            <h3 class="text-lg font-bold my-10">Chart by Stuff Types</h3>
-            <VueApexCharts type="donut" :options="donutOptions" :series="donutSeries" />
+            <h3 class="text-lg font-bold">Chart by Stuff Types</h3>
+            <VueApexCharts type="donut" :options="donutOptions" :series="donutSeries" width="100%" height="auto" />
         </div>
     </a-col>
 
@@ -64,6 +64,7 @@ const donutOptions = {
         enabled: true,
     },
     legend: {
+        show: false, // Отключаем легенду
         position: "bottom",
         labels: {
             colors: ["#000"],
@@ -74,11 +75,4 @@ const donutOptions = {
 const donutSeries = [63, 25, 12];
 </script>
 
-<style scoped>
-.chart {
-    height: 100%;
-    /* Ensures the chart occupies full height of the container */
-    width: 100%;
-    /* Ensures the chart occupies full width */
-}
-</style>
+<style scoped></style>

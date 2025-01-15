@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-white p-6 rounded-2xl shadow-md h-full">
+    <div class="bg-white px-6 rounded-2xl shadow-md h-full">
         <div v-for="(currency, index) in displayedCurrencies" :key="index"
             class="flex items-center justify-between py-3 border-b last:border-b-0">
             <!-- Currency Icon and Name -->
