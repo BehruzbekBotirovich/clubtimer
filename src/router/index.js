@@ -9,11 +9,15 @@ const router = createRouter({
             component: () => import('@/pages/LoginPage.vue')
         },
         {
+            path: '/register',
+            name: 'register',
+            component: () => import('@/pages/RegisterPage.vue')
+        },
+        {
             path: '/',
             name: 'Asosiy sahifa',
-            redirect: "cabinet"
+            redirect: 'cabinet'
         },
-
         {
             path: '/cabinet',
             name: 'cabinet',
@@ -21,6 +25,7 @@ const router = createRouter({
             children: [
                 {
                     path: '',
+                    name: 'cabinet-default', // Добавлено имя
                     redirect: 'cabinet/dashboard'
                 },
                 {
@@ -48,14 +53,11 @@ const router = createRouter({
                     name: 'center-info',
                     component: () => import("@/pages/cabinet/centers/components/CenterInfo.vue")
                 },
-
-
                 {
                     path: 'setting',
                     name: 'setting',
                     component: () => import("@/pages/cabinet/setting/SettingPage.vue")
                 },
-                // path ichida 500 qaytarishga
                 {
                     path: '500',
                     component: () => import('@/pages/_500.vue'),
@@ -63,7 +65,6 @@ const router = createRouter({
                 },
             ]
         },
-        // globalno 500 qaytarishga
         {
             path: '/500',
             component: () => import('@/pages/_500.vue'),
@@ -74,8 +75,22 @@ const router = createRouter({
             component: () => import('@/pages/_404.vue'),
             name: 'not_found_main'
         },
-
     ]
+})
+
+// Навигационный守атель для проверки авторизации
+router.beforeEach((to, from, next) => {
+    const isLogined = localStorage.getItem('token');
+
+    if (to.name !== 'Login' && !isLogined) {
+        if (to.name == 'register') {
+            next();
+        } else {
+            next({ name: 'Login' })
+        }
+    } else {
+        next();
+    }
 })
 
 export default router

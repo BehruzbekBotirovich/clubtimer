@@ -11,15 +11,16 @@
     <div class="w-1/2 flex items-center justify-center bg-gray-100">
       <a-form :model="formState" name="basic" autocomplete="off" class="w-1/2" @finish="onFinish"
         @finishFailed="onFinishFailed">
-        <a-form-item label="Username" name="username"
-          :rules="[{ required: true, message: 'Please input your username!' }]">
-          <a-input v-model:value="formState.username" />
+        <a-form-item label="Email" name="email" :rules="[{ required: true, message: 'Please input your username!' }]">
+          <a-input v-model:value="formState.email" type="email" />
         </a-form-item>
 
         <a-form-item label="Password" name="password"
           :rules="[{ required: true, message: 'Please input your password!' }]">
           <a-input-password v-model:value="formState.password" />
         </a-form-item>
+
+        <div class="text-red-500 text-semibold py-2">{{ error }}</div>
 
         <div class="flex items-center justify-between mb-4 mt-10">
           <a-form-item name="remember">
@@ -28,28 +29,47 @@
           <a href="#" class="text-blue-500">Forgot Password?</a>
         </div>
 
-
-        <a-form-item :wrapper-col="{ offset: 12, span: 16 }">
-          <a-button type="primary" html-type="submit">Sign In</a-button>
+        <a-form-item class="flex justify-center">
+          <a-button type="primary" html-type="submit" class="w-24">Sign In</a-button>
         </a-form-item>
       </a-form>
+
     </div>
   </div>
 </template>
 
 <script setup>
 import { reactive } from 'vue';
+import { ref } from "vue";
+import axios from "@/utils/axios.js";
+import { useRouter } from "vue-router";
+const router = useRouter();
+
 const formState = reactive({
-  username: '',
+  email: '',
   password: '',
   remember: true,
 });
+
 const onFinish = values => {
   console.log('Success:', values);
+  login()
 };
 const onFinishFailed = errorInfo => {
   console.log('Failed:', errorInfo);
 };
-</script>
 
-<style scoped></style>
+const error = ref("");
+
+const login = async () => {
+  try {
+    const response = await axios.post("/auth/login", { email: formState.email, password: formState.password });
+    const token = response.data.token;
+    localStorage.setItem("token", token); // Сохранение токена
+    router.push("/cabinet/centers"); // Переход на профиль
+  } catch (err) {
+    error.value = err.response?.data?.message || "Ошибка входа";
+  }
+}
+
+</script>
