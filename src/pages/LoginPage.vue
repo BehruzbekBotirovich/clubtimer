@@ -30,7 +30,7 @@
         </div>
 
         <a-form-item class="flex justify-center">
-          <a-button type="primary" html-type="submit" class="w-24">Sign In</a-button>
+          <a-button type="primary" html-type="submit" class="w-24">Log In</a-button>
         </a-form-item>
       </a-form>
 
