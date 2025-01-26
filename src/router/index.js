@@ -79,19 +79,19 @@ const router = createRouter({
 })
 
 // Навигационный守атель для проверки авторизации
-router.beforeEach((to, from, next) => {
-    const isLogined = localStorage.getItem('token');
+// router.beforeEach((to, from, next) => {
+//     const isLogined = localStorage.getItem('token');
 
-    if (to.name !== 'Login' && !isLogined) {
-        if (to.name == 'register') {
-            next();
-        } else {
-            next({ name: 'Login' })
-        }
-    } else {
-        next();
-    }
-})
+//     if (to.name !== 'Login' && !isLogined) {
+//         if (to.name == 'register') {
+//             next();
+//         } else {
+//             next({ name: 'Login' })
+//         }
+//     } else {
+//         next();
+//     }
+// })
 
 export default router
 
