@@ -1,7 +1,9 @@
-import {defineStore} from "pinia";
+import { defineStore } from "pinia";
+import axios from '@/utils/axios.js';
 
 export const useCenterStore = defineStore('center', {
     state: () => ({
+        loading: false,
         centers: [
             {
                 id: 1,
@@ -10,9 +12,9 @@ export const useCenterStore = defineStore('center', {
                 price: 1500,
                 img: new URL('@/assets/removeit/club2.jpg', import.meta.url).href,
                 stuff: [
-                    {count: 4, name: "PS4"},
-                    {count: 6, name: "Billiard"},
-                    {count: 3, name: "Caraoke"}
+                    { count: 4, name: "PS4" },
+                    { count: 6, name: "Billiard" },
+                    { count: 3, name: "Caraoke" }
                 ],
             },
             {
@@ -22,9 +24,9 @@ export const useCenterStore = defineStore('center', {
                 price: 2500,
                 img: new URL('@/assets/removeit/club3.jpg', import.meta.url).href,
                 stuff: [
-                    {count: 6, name: "PS4"},
-                    {count: 10, name: "Billiard"},
-                    {count: 4, name: "Caraoke"}
+                    { count: 6, name: "PS4" },
+                    { count: 10, name: "Billiard" },
+                    { count: 4, name: "Caraoke" }
                 ],
             },
             {
@@ -34,9 +36,9 @@ export const useCenterStore = defineStore('center', {
                 price: 3200,
                 img: new URL('@/assets/removeit/club4.jpg', import.meta.url).href,
                 stuff: [
-                    {count: 8, name: "PS4"},
-                    {count: 4, name: "Billiard"},
-                    {count: 3, name: "Caraoke"}
+                    { count: 8, name: "PS4" },
+                    { count: 4, name: "Billiard" },
+                    { count: 3, name: "Caraoke" }
                 ],
             },
             {
@@ -46,9 +48,9 @@ export const useCenterStore = defineStore('center', {
                 price: 1800,
                 img: new URL('@/assets/removeit/club5.jpg', import.meta.url).href,
                 stuff: [
-                    {count: 2, name: "PS4"},
-                    {count: 3, name: "Billiard"},
-                    {count: 3, name: "Caraoke"}
+                    { count: 2, name: "PS4" },
+                    { count: 3, name: "Billiard" },
+                    { count: 3, name: "Caraoke" }
                 ],
             },
 
@@ -60,11 +62,35 @@ export const useCenterStore = defineStore('center', {
                 price: 10,
                 startTime: '19:00',
                 endTime: '19:20',
-                timer:true,
-
+                timer: true,
             }
         ]
     }),
-    actions: {},
+    actions: {
+        // getBuildings() {
+        //     this.loading = true;
+        //     this.error = null;
+        //     axios.get('/buildings')
+        //         .then((data) => {
+        //             this.centers = data.data
+        //             // vaqtincha
+        //             this.centers.map((el) => {
+        //                 el.stuff = [
+        //                     { count: 4, name: "PS4" },
+        //                     { count: 6, name: "Billiard" },
+        //                     { count: 3, name: "Caraoke" }
+        //                 ];
+        //             })// ***************
+        //             console.log(this.centers)
+        //         })
+        //         .catch(err => {
+        //             this.error = 'Ошибка при загрузке данных: ' + err.message;
+        //             console.error(err);
+        //         })
+        //         .finally(() => {
+        //             this.loading = false;
+        //         });
+        // }
+    },
 
 })

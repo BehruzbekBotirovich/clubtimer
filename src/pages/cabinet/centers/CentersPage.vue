@@ -15,11 +15,14 @@
 </template>
 
 <script setup>
+import { onMounted } from "vue";
 import { useCenterStore } from "@/stores/center.pinia.js";
 import CenterCard from "./components/CenterCard.vue";
 
-
 const centersStore = useCenterStore();
+onMounted(() => {
+  centersStore.getBuildings()
+})
 
 </script>
 

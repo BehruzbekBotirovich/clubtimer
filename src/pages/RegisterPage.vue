@@ -9,8 +9,7 @@
 
         <!-- Right Section -->
         <div class="w-1/2 flex items-center justify-center bg-gray-100">
-            <a-form :model="formState" name="basic" autocomplete="off" class="w-1/2" @finish="onFinish"
-                @finishFailed="onFinishFailed">
+            <a-form :model="formState" class="w-1/2" @finish="onFinish" @finishFailed="onFinishFailed">
                 <a-form-item label="Name" name="name" :rules="[{ required: true, message: 'Введите имя' }]">
                     <a-input type="text" v-model:value="formState.name" />
                 </a-form-item>

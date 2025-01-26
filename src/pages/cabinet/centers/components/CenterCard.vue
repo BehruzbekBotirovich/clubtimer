@@ -1,5 +1,5 @@
 <template>
-  <a-col v-for="el in data" :key="el.id" :lg="6">
+  <a-col v-for="el in data" :key="el._id" :lg="6">
     <a-card class="rounded-xl shadow-lg overflow-hidden border  border-gray-200" hoverable>
       <template #cover>
         <img alt="example" :src="el.img" style="aspect-ratio: 3/2; object-fit: cover;" />
@@ -12,7 +12,7 @@
         </p>
         <p class="text-gray-700 text-sm  mb-4 flex items-center gap-2">
           <profit-percent />
-          Monthly: {{ el.price }}
+          Monthly: 1900
         </p>
 
         <div class="grid grid-cols-3 gap-2 text-center text-sm ">
@@ -20,19 +20,19 @@
             <div class="flex items-center justify-center ">
               <ps-icon></ps-icon>
             </div>
-            <p class="text-nowrap"> {{ el.stuff[0]?.count }} {{ el.stuff[0]?.name }} </p>
+            <p class="text-nowrap"> {{ el?.stuff[0]?.count }} {{ el.stuff[0]?.name  }} </p>
           </div>
           <div class="bg-gray-100 p-2 rounded-lg">
             <div class="flex items-center justify-center ">
               <billiard-icon></billiard-icon>
             </div>
-            <p class="text-nowrap"> {{ el.stuff[1]?.count }} {{ el.stuff[1]?.name }} </p>
+            <p class="text-nowrap"> {{ el?.stuff[1]?.count }} {{ el.stuff[1]?.name  }} </p>
           </div>
-          <div v-if="el.stuff[2]?.name=='Caraoke'" class="bg-gray-100 p-2 rounded-lg">
+          <div v-if="el.stuff[2]?.name == 'Caraoke'" class="bg-gray-100 p-2 rounded-lg">
             <div class="flex items-center justify-center ">
               <caraoke-icon />
             </div>
-            <p class="text-nowrap"> {{ el.stuff[2]?.count }} {{ el.stuff[2]?.name }} </p>
+            <p class="text-nowrap"> {{ el?.stuff[2]?.count }} {{ el.stuff[2]?.name  }} </p>
           </div>
           <div>
 
@@ -40,7 +40,7 @@
         </div>
       </div>
       <div class=" mt-4 ">
-        <router-link :to="{ name: 'center-info', params: { id: el.id } }">
+        <router-link :to="{ name: 'center-info', params: { id: el._id } }">
           <a-button type="primary" class="w-full">Details</a-button>
         </router-link>
       </div>

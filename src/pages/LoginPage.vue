@@ -9,10 +9,10 @@
 
     <!-- Right Section -->
     <div class="w-1/2 flex items-center justify-center bg-gray-100">
-      <a-form :model="formState" name="basic" autocomplete="off" class="w-1/2" @finish="onFinish"
-        @finishFailed="onFinishFailed">
-        <a-form-item label="Email" name="email" :rules="[{ required: true, message: 'Please input your username!' }]">
-          <a-input v-model:value="formState.email" type="email" />
+      <a-form :model="formState" class="w-1/2" @finish="onFinish" @finishFailed="onFinishFailed">
+        <a-form-item label="Email" name="email"
+          :rules="[{ required: true, type: 'email', message: 'Введите корректный email' }]">
+          <a-input type="email" v-model:value="formState.email" />
         </a-form-item>
 
         <a-form-item label="Password" name="password"
@@ -62,14 +62,16 @@ const onFinishFailed = errorInfo => {
 const error = ref("");
 
 const login = async () => {
-  try {
-    const response = await axios.post("/auth/login", { email: formState.email, password: formState.password });
-    const token = response.data.token;
-    localStorage.setItem("token", token); // Сохранение токена
-    router.push("/cabinet/centers"); // Переход на профиль
-  } catch (err) {
-    error.value = err.response?.data?.message || "Ошибка входа";
-  }
+  // try {
+  //   const response = await axios.post("/auth/login", { email: formState.email, password: formState.password });
+  //   const token = response.data.token;
+  //   localStorage.setItem("token", token); // Сохранение токена
+  //   router.push("/cabinet/centers"); // Переход на профиль
+  // } catch (err) {
+  //   error.value = err.response?.data?.message || "Ошибка входа";
+  // }
+  router.push("/cabinet/centers"); // Переход на профиль
+
 }
 
 </script>
