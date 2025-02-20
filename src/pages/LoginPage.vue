@@ -68,12 +68,12 @@ const login = async () => {
     const token = response.data.token;
     localStorage.setItem("token", token); // Сохранение токена
     console.log(localStorage.getItem("token"));
+    router.push("/cabinet/centers"); // Переход на профиль
   } catch (err) {
     error.value = err.response?.data?.message || "Ошибка входа";
   }
   finally {
     loading.value = false;
-    router.push("/cabinet/centers"); // Переход на профиль
   }
 
 }
