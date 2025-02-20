@@ -5,7 +5,7 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/', 
+  base: '/',
   plugins: [
     vue(),
     vueDevTools(),
@@ -14,10 +14,12 @@ export default defineConfig({
     port: 3000,
     proxy: {
       '/api': {
+        target: 'https://clubtimer-backend.vercel.app/',
         changeOrigin: true,
         secure: false,
-        rewrite: (path) => path.replace(/^\/api/, '/api'),
+        rewrite: (path) => path.replace(/^\/api/, '/api/')
       },
+
     },
   },
   resolve: {

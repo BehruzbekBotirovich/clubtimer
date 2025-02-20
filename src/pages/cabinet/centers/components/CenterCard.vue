@@ -20,19 +20,19 @@
             <div class="flex items-center justify-center ">
               <ps-icon></ps-icon>
             </div>
-            <p class="text-nowrap"> {{ el?.stuff[0]?.count }} {{ el.stuff[0]?.name  }} </p>
+            <p class="text-nowrap"> {{ (el.itemCounts?.PS4 || 0) + (el.itemCounts?.PS5 || 0) }} </p>
           </div>
           <div class="bg-gray-100 p-2 rounded-lg">
             <div class="flex items-center justify-center ">
               <billiard-icon></billiard-icon>
             </div>
-            <p class="text-nowrap"> {{ el?.stuff[1]?.count }} {{ el.stuff[1]?.name  }} </p>
+            <p class="text-nowrap"> {{ el?.itemCounts?.table || 0 }} </p>
           </div>
-          <div v-if="el.stuff[2]?.name == 'Caraoke'" class="bg-gray-100 p-2 rounded-lg">
+          <div class="bg-gray-100 p-2 rounded-lg">
             <div class="flex items-center justify-center ">
               <caraoke-icon />
             </div>
-            <p class="text-nowrap"> {{ el?.stuff[2]?.count }} {{ el.stuff[2]?.name  }} </p>
+            <p class="text-nowrap"> {{ el?.itemCounts?.karaoke || 0 }} </p>
           </div>
           <div>
 

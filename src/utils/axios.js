@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-    baseURL: import.meta.env.VITE_API_BASE_URL, // Чтение базового URL из env
+    baseURL: `${import.meta.env.VITE_API_BASE_URL}${import.meta.env.VITE_APP_API_VERSION}/`
 });
 
 instance.interceptors.request.use((config) => {
@@ -10,6 +10,6 @@ instance.interceptors.request.use((config) => {
         config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
-}); 
+});
 
 export default instance;

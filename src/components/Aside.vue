@@ -91,7 +91,7 @@ const router = useRouter();
 
 const deleteToken = () => {
   localStorage.removeItem("token");
-  router.push('login')
+  router.push('/login')
 }
 </script>
 

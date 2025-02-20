@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia';
 import axios from '@/utils/axios.js';
-// not works ***********************************************
 export const useAuthStore = defineStore('auth', {
     state: () => ({
         token: localStorage.getItem('token') || null,
