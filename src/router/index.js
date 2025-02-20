@@ -82,16 +82,19 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
     const isLogined = localStorage.getItem('token');
 
+    console.log("TOKEN:", isLogined); // <-- Посмотри в консоли, есть ли токен
+
     if (to.name !== 'Login' && !isLogined) {
         if (to.name == 'register') {
             next();
         } else {
-            next({ name: 'Login' })
+            next({ name: 'Login' });
         }
     } else {
         next();
     }
-})
+});
+
 
 export default router
 
