@@ -62,14 +62,14 @@ const onFinishFailed = errorInfo => {
 const error = ref("");
 
 const login = async () => {
-  // try {
-  //   const response = await axios.post("/auth/login", { email: formState.email, password: formState.password });
-  //   const token = response.data.token;
-  //   localStorage.setItem("token", token); // Сохранение токена
-  //   router.push("/cabinet/centers"); // Переход на профиль
-  // } catch (err) {
-  //   error.value = err.response?.data?.message || "Ошибка входа";
-  // }
+  try {
+    const response = await axios.post("/auth/login", { email: formState.email, password: formState.password });
+    const token = response.data.token;
+    localStorage.setItem("token", token); // Сохранение токена
+    router.push("/cabinet/centers"); // Переход на профиль
+  } catch (err) {
+    error.value = err.response?.data?.message || "Ошибка входа";
+  }
   router.push("/cabinet/centers"); // Переход на профиль
 
 }
