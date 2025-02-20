@@ -30,7 +30,7 @@
         </div>
 
         <a-form-item class="flex justify-center">
-          <a-button type="primary" html-type="submit" class="w-24">Log In</a-button>
+          <a-button :loading="loading" type="primary" html-type="submit" class="w-24">Log In</a-button>
         </a-form-item>
       </a-form>
 
@@ -44,7 +44,7 @@ import { ref } from "vue";
 import axios from "@/utils/axios.js";
 import { useRouter } from "vue-router";
 const router = useRouter();
-
+const loading = ref(false);
 const formState = reactive({
   email: '',
   password: '',
@@ -62,15 +62,19 @@ const onFinishFailed = errorInfo => {
 const error = ref("");
 
 const login = async () => {
+  loading.value = true;
   try {
     const response = await axios.post("/auth/login", { email: formState.email, password: formState.password });
     const token = response.data.token;
     localStorage.setItem("token", token); // Сохранение токена
-    router.push("/cabinet/centers"); // Переход на профиль
+    console.log(localStorage.getItem("token"));
   } catch (err) {
     error.value = err.response?.data?.message || "Ошибка входа";
   }
-  router.push("/cabinet/centers"); // Переход на профиль
+  finally {
+    loading.value = false;
+    router.push("/cabinet/centers"); // Переход на профиль
+  }
 
 }
 

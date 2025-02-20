@@ -80,12 +80,10 @@ const router = createRouter({
 
 // Навигационный守атель для проверки авторизации
 router.beforeEach((to, from, next) => {
-    const isLogined = localStorage.getItem('token');
-
-    console.log("TOKEN:", isLogined); // <-- Посмотри в консоли, есть ли токен
-
+    const isLogined = Boolean(localStorage.getItem('token'));
+    console.log(isLogined)
     if (to.name !== 'Login' && !isLogined) {
-        if (to.name == 'register') {
+        if (to.name === 'register') {
             next();
         } else {
             next({ name: 'Login' });
