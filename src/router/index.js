@@ -77,21 +77,18 @@ const router = createRouter({
         },
     ]
 })
-
-// Навигационный守атель для проверки авторизации
+// Добавляем проверку токена
 router.beforeEach((to, from, next) => {
     const isLogined = Boolean(localStorage.getItem('token'));
-    console.log(isLogined)
-    if (to.name !== 'Login' && !isLogined) {
-        if (to.name === 'register') {
-            next();
-        } else {
-            next({ name: 'Login' });
-        }
+    console.log("🚀 Проверка токена:", isLogined, "| Маршрут:", to.name);
+
+    if (!isLogined && (to.name !== 'Login' && to.name !== 'register')) {
+        next({ name: 'Login' }); // Если токена нет, перебрасываем на логин
     } else {
-        next();
+        next(); // Если всё ок, идём дальше
     }
 });
+
 
 
 export default router

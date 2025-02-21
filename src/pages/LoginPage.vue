@@ -22,16 +22,19 @@
 
         <div class="text-red-500 text-semibold py-2">{{ error }}</div>
 
-        <div class="flex items-center justify-between mb-4 mt-10">
+        <div class="flex items-center justify-between mb-4 mt-8">
           <a-form-item name="remember">
             <a-checkbox v-model:checked="formState.remember">Remember me</a-checkbox>
           </a-form-item>
           <a href="#" class="text-blue-500">Forgot Password?</a>
         </div>
-
         <a-form-item class="flex justify-center">
           <a-button :loading="loading" type="primary" html-type="submit" class="w-24">Log In</a-button>
         </a-form-item>
+        <div class="text-center my-4">
+          Don't have an account?
+          <router-link to="/register" class="text-blue-500"> Sign Up</router-link>
+        </div>
       </a-form>
 
     </div>
@@ -67,7 +70,6 @@ const login = async () => {
     const response = await axios.post("/auth/login", { email: formState.email, password: formState.password });
     const token = response.data.token;
     localStorage.setItem("token", token); // Сохранение токена
-    console.log(localStorage.getItem("token"));
     router.push("/cabinet/centers"); // Переход на профиль
   } catch (err) {
     error.value = err.response?.data?.message || "Ошибка входа";
