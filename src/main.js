@@ -1,22 +1,24 @@
-//styles
-import '@/styles/tailwind.scss';
-import './styles/base.scss'; // Import global SCSS here
-
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
-import VueApexCharts from "vue3-apexcharts";
-
-// depends
+import routerFactory from '@/routers/index.js'
+import i18nFactory from '@/utils/i18n/index.js'
+// import { createYmaps } from 'vue-yandex-maps'
+import Vue3Lottie from 'vue3-lottie'
 import App from './App.vue'
-import Antd from 'ant-design-vue';
-import router from './router'
+import '@/assets/styles/main.scss'
+import 'ant-design-vue/dist/reset.css'
+// import 'vue-yandex-maps/css'
+
+const pinia = createPinia()
 
 const app = createApp(App)
 
-app.use(createPinia())
-app.use(router)
-app.use(Antd);
-app.component("VueApexCharts", VueApexCharts);
+app.use(pinia)
 
+const i18n = i18nFactory()
+
+app.use(routerFactory(i18n.global))
+app.use(i18n)
+app.use(Vue3Lottie)
 
 app.mount('#app')
