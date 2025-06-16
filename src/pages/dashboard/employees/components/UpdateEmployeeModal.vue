@@ -41,7 +41,7 @@ function submitForm() {
     </a-form-item>
 
     <a-form-item label="Email" name="email" :rules="[{ required: true }]">
-      <a-input v-model:value="form.email" size="large"/>
+      <a-input v-model:value="form.email" size="large" type="email"/>
     </a-form-item>
 
     <a-form-item name="role" :rules="[{ required: true }]">

@@ -3,35 +3,35 @@ import {api} from "@/utils/api/index.js";
 import corePinia from "@/store/core.pinia.js";
 import useModal from "@/store/modal.pinia.js";
 
-const useEmployeesStore = defineStore('employees', {
+const useProductStore = defineStore('products', {
     state: () => ({
-        employees: []
+        products: [],
     }), actions: {
-        getAllEmployees(params) {
+        getAllProducts(params) {
             const core = corePinia()
-            core.loading('get-employees')
+            core.loading('get-products')
             api({
-                url: '/users',
+                url: '/products',
                 method: 'GET',
                 params: params
             })
                 .then(({data}) => {
-                    this.employees = data.content
+                    this.products = data.content
                 })
                 .catch((error) => {
                     core.switchStatus(error)
                 })
                 .finally(() => {
-                    core.loading('get-employees')
+                    core.loading('get-products')
                 })
         },
 
-        createEmployee(formData, modalKey) {
+        createProduct(formData, modalKey) {
             const core = corePinia()
             const modalPinia = useModal()
-            core.loading('create-employee')
+            core.loading('create-product')
             api({
-                url: '/users',
+                url: '/products',
                 method: 'POST',
                 data: formData,
             })
@@ -41,21 +41,21 @@ const useEmployeesStore = defineStore('employees', {
                         type: 'success',
                     })
                     modalPinia.close(modalKey)
-                    this.getAllEmployees()
+                    this.getAllProducts()
                 })
                 .catch((error) => {
                     core.setToast(error)
                 })
                 .finally(() => {
-                    core.loading('create-employee')
+                    core.loading('create-product')
                 })
         },
 
-        reactiveUser(id) {
+        deleteProduct(id) {
             const core = corePinia()
-            core.loading('reactive-user')
+            core.loading('delete-product')
             api({
-                url: `/users/${id}`,
+                url: `/products/${id}`,
                 method: 'DELETE',
             })
                 .then(({data}) => {
@@ -63,21 +63,22 @@ const useEmployeesStore = defineStore('employees', {
                         locale: data.message,
                         type: 'success',
                     })
-                    this.getAllEmployees()
+                    this.getAllProducts()
                 })
                 .catch((error) => {
                     core.setToast(error)
                 })
                 .finally(() => {
-                    core.loading('reactive-user')
+                    core.loading('delete-product')
                 })
         },
-        updateEmployee(id, formData, modalKey) {
+
+        updateProduct(id, formData, modalKey) {
             const core = corePinia()
             const modalPinia = useModal()
-            core.loading('update-employee')
+            core.loading('update-product')
             api({
-                url: `/users/${id}`,
+                url: `/products/${id}`,
                 method: 'PUT',
                 data: formData,
             })
@@ -86,18 +87,18 @@ const useEmployeesStore = defineStore('employees', {
                         locale: data.message,
                         type: 'success',
                     })
-                    this.getAllEmployees()
+                    this.getAllProducts()
                     modalPinia.close(modalKey)
                 })
                 .catch((error) => {
                     core.setToast(error)
                 })
                 .finally(() => {
-                    core.loading('update-employee')
+                    core.loading('update-product')
                 })
         }
     },
 
 })
 
-export default useEmployeesStore
+export default useProductStore

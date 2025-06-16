@@ -4,9 +4,9 @@
       <!-- Иконка и название -->
       <a-col :lg="8" class="mr-2">
         <div class="flex justify-center items-center w-full">
-          <ps-timer v-if="props.type ==='console' "/>
-          <board-timer v-if="props.type==='board'"/>
-          <img v-if="props.type==='karaoke'" alt="karaoke" src="@/components/icons/KaraokeTimer.png" style="height:90px"/>
+          <IconConsole v-if="props.device.type ==='PS' " class="text-6xl"/>
+          <IconBilliard v-if="props.device.type==='table'" class="text-6xl"/>
+          <IconKaraoke v-if="props.device.type==='karaoke'" class="text-6xl"/>
         </div>
         <h3 class="text-2xl font-bold text-gray-700 text-center mt-2 mb-6">{{ name }}</h3>
         <p class="flex items-center gap-2 text-center">
@@ -34,11 +34,11 @@
           <a-button-group class="custom-button-group">
             <a-button type="default" @click="stopTimer"
                       class="flex items-center justify-center border-r-0 rounded-l-lg">
-              <stop-icon/>
+              <IconDelete/>
               <span class="ml-1 text">Stop</span>
             </a-button>
             <a-button type="default" @click="addTime" class="flex items-center justify-center rounded-r-lg">
-              <add-icon/>
+              <IconPlusCircle/>
               <span class="ml-1 text">Add</span>
             </a-button>
           </a-button-group>
@@ -49,20 +49,18 @@
 </template>
 
 <script setup>
-import PsTimer from "@/components/icons/PsTimer.vue";
-import StopIcon from "@/components/icons/StopIcon.vue";
-import AddIcon from "@/components/icons/AddIcon.vue";
-import BoardTimer from "@/components/icons/BoardTimer.vue";
+
 
 import {ref, computed, onMounted, onUnmounted} from "vue";
 import dayjs from "dayjs";
+import IconPlusCircle from "@/components/icons/IconPlusCircle.vue";
+import IconDelete from "@/components/icons/IconDelete.vue";
+import IconConsole from "@/components/icons/IconConsole.vue";
+import IconBilliard from "@/components/icons/IconBilliard.vue";
+import IconKaraoke from "@/components/icons/IconKaraoke.vue";
 
 const props = defineProps({
-  price: Number,
-  type: String,
-  startTime: String,
-  endTime: String,
-  name: String,
+  device: Object,
 });
 
 const totalSeconds = ref(30); // Изначальное время

@@ -1,7 +1,7 @@
 <template>
   <div class="flex items-center justify-between">
     <h1 class="text-2xl font-semibold py-6">
-      Employees ({{ employeeStore.employees.length }})
+      Tovarlar ({{ productStore.products.length }})
     </h1>
     <div class="flex items-center">
       <a-input-search
@@ -14,15 +14,15 @@
       />
       <a-button @click="openCreateModal" type="primary" size="large">
         <template #icon>
-          <icon-user-add class="text-xl mr-1"/>
+          <icon-product-add class="text-xl mr-1"/>
         </template>
-        {{ $t('user.user_add') }}
+        {{ $t('product.product_create') }}
       </a-button>
     </div>
   </div>
 
-  <a-spin :spinning="loadingUrl.has('get-employees')">
-    <EmployeeCard :data="employeeStore.employees"/>
+  <a-spin :spinning="loadingUrl.has('get-products')">
+    <ProductCard :data="productStore.products"/>
     <div class="flex justify-end mt-4">
       <a-pagination
           :current="currentPage"
@@ -39,58 +39,61 @@
 
 <script setup>
 import {ref, shallowRef, onMounted} from 'vue'
-import useEmployeesStore from '@/store/employee.pinia.js'
-import CreateEmployeeModal from "@/pages/dashboard/employees/components/CreateEmployeeModal.vue"
-import EmployeeCard from './components/EmployeeCard.vue'
 import useCore from "@/store/core.pinia.js"
 import useModal from '@/store/modal.pinia.js'
 import {storeToRefs} from "pinia"
+import useProductStore from '@/store/product.pinia.js'
 
+
+import ProductCard from "@/pages/dashboard/products/components/ProductCard.vue";
+import IconProductAdd from "@/components/icons/IconProductAdd.vue";
+import CreateProductModal from "@/pages/dashboard/products/components/CreateProductModal.vue";
+
+const productStore = useProductStore()
 const search = ref('')
 const currentPage = ref(1)
 const limit = ref(20)
 const total = ref(0)
 
-const employeeStore = useEmployeesStore()
 const modal = useModal()
 const corePinia = useCore()
 const {loadingUrl} = storeToRefs(corePinia)
 
-function fetchEmployees() {
+function fetchProduct() {
   const params = {
     search: search.value || undefined,
     page: currentPage.value,
     limit: limit.value
   }
 
-  employeeStore.getAllEmployees(params)
+  productStore.getAllProducts(params)
 }
 
 onMounted(() => {
-  if (employeeStore.employees.length === 0) {
-    fetchEmployees()
+  if (productStore.products.length === 0) {
+    fetchProduct()
   }
 })
 
 function openCreateModal() {
   modal.open({
-    component: shallowRef(CreateEmployeeModal)
+    component: shallowRef(CreateProductModal)
   })
 }
 
 function onSearch() {
   currentPage.value = 1
-  fetchEmployees()
+  fetchProduct()
 }
 
 function onPageChange(page) {
   currentPage.value = page
-  fetchEmployees()
+  fetchProduct()
 }
 
 function onPageSizeChange(current, size) {
   limit.value = size
   currentPage.value = 1
-  fetchEmployees()
+  fetchProduct()
 }
 </script>

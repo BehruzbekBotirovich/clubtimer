@@ -3,35 +3,35 @@ import {api} from "@/utils/api/index.js";
 import corePinia from "@/store/core.pinia.js";
 import useModal from "@/store/modal.pinia.js";
 
-const useEmployeesStore = defineStore('employees', {
+const useDevicesStore = defineStore('devices', {
     state: () => ({
-        employees: []
+        devices: [],
     }), actions: {
-        getAllEmployees(params) {
+        getAllDevices(params) {
             const core = corePinia()
-            core.loading('get-employees')
+            core.loading('get-devices')
             api({
-                url: '/users',
+                url: '/devices',
                 method: 'GET',
                 params: params
             })
                 .then(({data}) => {
-                    this.employees = data.content
+                    this.devices = data
                 })
                 .catch((error) => {
                     core.switchStatus(error)
                 })
                 .finally(() => {
-                    core.loading('get-employees')
+                    core.loading('get-devices')
                 })
         },
 
-        createEmployee(formData, modalKey) {
+        createDevice(formData, modalKey) {
             const core = corePinia()
             const modalPinia = useModal()
-            core.loading('create-employee')
+            core.loading('create-device')
             api({
-                url: '/users',
+                url: '/devices',
                 method: 'POST',
                 data: formData,
             })
@@ -41,21 +41,21 @@ const useEmployeesStore = defineStore('employees', {
                         type: 'success',
                     })
                     modalPinia.close(modalKey)
-                    this.getAllEmployees()
+                    this.getAllDevices()
                 })
                 .catch((error) => {
                     core.setToast(error)
                 })
                 .finally(() => {
-                    core.loading('create-employee')
+                    core.loading('create-devise')
                 })
         },
 
-        reactiveUser(id) {
+        deleteDevice(id) {
             const core = corePinia()
-            core.loading('reactive-user')
+            core.loading('delete-devices')
             api({
-                url: `/users/${id}`,
+                url: `/devices/${id}`,
                 method: 'DELETE',
             })
                 .then(({data}) => {
@@ -63,21 +63,22 @@ const useEmployeesStore = defineStore('employees', {
                         locale: data.message,
                         type: 'success',
                     })
-                    this.getAllEmployees()
+                    this.getAllDevices()
                 })
                 .catch((error) => {
                     core.setToast(error)
                 })
                 .finally(() => {
-                    core.loading('reactive-user')
+                    core.loading('delete-device')
                 })
         },
-        updateEmployee(id, formData, modalKey) {
+
+        updateDevice(id, formData, modalKey) {
             const core = corePinia()
             const modalPinia = useModal()
-            core.loading('update-employee')
+            core.loading('update-device')
             api({
-                url: `/users/${id}`,
+                url: `/devices/${id}`,
                 method: 'PUT',
                 data: formData,
             })
@@ -86,18 +87,18 @@ const useEmployeesStore = defineStore('employees', {
                         locale: data.message,
                         type: 'success',
                     })
-                    this.getAllEmployees()
+                    this.getAllDevices()
                     modalPinia.close(modalKey)
                 })
                 .catch((error) => {
                     core.setToast(error)
                 })
                 .finally(() => {
-                    core.loading('update-employee')
+                    core.loading('update-device')
                 })
         }
     },
 
 })
 
-export default useEmployeesStore
+export default useDevicesStore
