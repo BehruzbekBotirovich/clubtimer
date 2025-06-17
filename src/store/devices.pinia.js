@@ -8,6 +8,7 @@ const useDevicesStore = defineStore('devices', {
         devices: [],
     }), actions: {
         getAllDevices(params) {
+            this.devices = [];
             const core = corePinia()
             core.loading('get-devices')
             api({

@@ -20,8 +20,8 @@ export default defineConfig(({_command, mode}) => {
             port: 3000,
             proxy: {
                 '/api': {
-                    target: 'https://clubtimer-back.onrender.com',
-                    // target: 'http://localhost:5000',
+                    // target: 'https://clubtimer-back.onrender.com',
+                    target: 'http://localhost:5000',
                     changeOrigin: true,
                     secure: false,
                     rewrite: (path) => path.replace(/^\/api/, '/api/')

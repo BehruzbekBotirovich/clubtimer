@@ -34,7 +34,9 @@ const core = useCore();
 const {loadingUrl} = storeToRefs(core)
 const centersStore = useCenterStore();
 onMounted(() => {
-  centersStore.getBuildings()
+  if (centersStore.centers.length === 0) {
+    centersStore.getBuildings()
+  }
 })
 
 function openCreateModal() {

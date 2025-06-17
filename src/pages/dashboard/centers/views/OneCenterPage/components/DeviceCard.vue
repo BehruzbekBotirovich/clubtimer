@@ -1,8 +1,8 @@
 <template>
   <a-col :lg="8">
-    <div class="flex p-6 rounded-xl shadow-lg bg-white">
+    <div class="flex p-4 rounded-xl shadow-lg bg-white">
       <!-- Левая часть: Инфо о девайсе -->
-      <a-col :lg="8" class="mr-4 border-r pr-4">
+      <a-col :lg="8" class="border-r pr-4  !px-0 relative">
         <div class="flex justify-center items-center w-full mb-2">
           <IconConsole v-if="device.type === 'PS'" class="text-6xl"/>
           <IconBilliard v-if="device.type === 'table'" class="text-6xl"/>
@@ -11,12 +11,20 @@
         <h3 class="text-2xl font-bold text-gray-800 text-center">{{ device.name }}</h3>
         <div class="text-center mt-2">
           <p class="text-sm text-gray-600">Tariff: <strong>{{ device.tariff_id.tariff_name }}</strong></p>
-          <p class="text-sm text-gray-600">Narx: {{ device.tariff_id.periods[0].price_per_hour }} so'm/soat</p>
+          <div class="text-sm text-gray-600">
+            <div class="mb-1">Hozirgi narxi:</div>
+            <a-tag color="blue">{{ currentPricePerHour }} so'm/soat</a-tag>
+          </div>
         </div>
+        <a-button @click="showDrawer(device._id)" type="default" class="absolute -top-1 -left-1">
+          <template #icon>
+            <icon-info-circle class="text-lg"/>
+          </template>
+        </a-button>
       </a-col>
 
       <!-- Правая часть: Сессия если есть -->
-      <a-col v-if="device?.activeBooking" :lg="16" class="w-full space-y-4">
+      <a-col v-if="device?.activeBooking" :lg="16" class="w-full space-y-2">
         <div
             :class="[colorClass, 'timer-display text-white text-center font-bold text-xl transition-all duration-500']">
           {{ formattedTime }}
@@ -30,6 +38,17 @@
           </div>
           <div class="bg-gray-100 px-3 py-2 rounded-md font-medium">
             End: {{ end.format('HH:mm') }}
+          </div>
+        </div>
+        <div class="space-y-1">
+          <div>
+            <span class="text-gray-600">  Summa:</span> {{ device?.activeBooking?.total_price }}
+          </div>
+          <div v-if="device?.activeBooking?.client_name">
+            <span class="text-gray-600">  Mijoz:</span> {{ device?.activeBooking?.client_name }}
+          </div>
+          <div v-if="device?.activeBooking?.description">
+            <span class="text-gray-600">  Sharh:</span> {{ device?.activeBooking?.description }}
           </div>
         </div>
       </a-col>
@@ -77,22 +96,83 @@
       </a-col>
     </div>
   </a-col>
+  <a-drawer
+      v-model:open="open"
+      :title="device.name"
+      placement="right"
+  >
+    <a-card title="Vaqt bo'yicha tariflar" size="small" class="mb-4 ">
+      <div v-for="period in device.tariff_id.periods" :key="period._id" class="flex justify-between py-1 text-sm">
+        <div>
+          {{ formatHour(period.start_hour) }} - {{ formatHour(period.end_hour === 0 ? 24 : period.end_hour) }}
+        </div>
+        <div class="font-semibold">{{ period.price_per_hour }} so'm/soat</div>
+      </div>
+    </a-card>
+    <h3>Bugungi sessiyalar</h3>
+    <a-spin :spinning="loadingUrl.has('get-one-device-timeline')">
+      <div class="mt-3">
+        <div
+            v-for="session in bookStore?.OneDeviceHistory?.timeline"
+            :key="session._id"
+            class="mb-3 p-3 rounded-xl shadow border bg-white space-y-2"
+        >
+          <div class="flex justify-between text-sm text-gray-700">
+            <span><b>🕒</b> {{ formatTime(session.start_time) }} - {{ formatTime(session.end_time) }}</span>
+            <a-tag color="green">{{ session.total_price }} so'm</a-tag>
+          </div>
+          <div class="text-sm text-gray-600 flex ">
+            <icon-user-cog class="text-lg mr-1"/>
+            <div><b>Hodim:</b> {{ session.user.fullName }}</div>
+          </div>
+          <div v-if="session.client_name" class="text-sm text-gray-600 flex ">
+            <icon-user-check class="text-lg mr-1"/>
+            <div><b>Mijoz:</b> {{ session.client_name }}</div>
+          </div>
+          <div v-if="session.description" class="text-sm text-gray-600">
+            📝 <b>Sharh:</b> {{ session.description }}
+          </div>
+        </div>
+      </div>
+    </a-spin>
+  </a-drawer>
+
 </template>
 
 <script setup>
 import {ref, computed, onMounted, onUnmounted, watch} from 'vue';
 import dayjs from 'dayjs';
 import useBookingStore from "@/store/booking.pinia.js";
+import {useRoute} from "vue-router";
+import useCore from "@/store/core.pinia.js";
 // components
 import IconConsole from '@/components/icons/IconConsole.vue';
 import IconBilliard from '@/components/icons/IconBilliard.vue';
 import IconKaraoke from '@/components/icons/IconKaraoke.vue';
 import IconClockAdd from "@/components/icons/IconClockAdd.vue";
+import IconInfoCircle from "@/components/icons/IconInfoCircle.vue";
+import {storeToRefs} from "pinia";
+import IconUserCheck from "@/components/icons/IconUserCheck.vue";
+import IconUserCog from "@/components/icons/IconUserCog.vue";
 
+const core = useCore();
+const route = useRoute();
 const bookStore = useBookingStore();
 const props = defineProps({
   device: Object,
 });
+const {loadingUrl} = storeToRefs(core)
+
+///
+const open = ref(false);
+const afterOpenChange = bool => {
+  console.log('open', bool);
+};
+const showDrawer = (id) => {
+  open.value = true;
+  bookStore.getOneDeviceBooking(id)
+};
+///
 
 const timeAddOpen = ref(false);
 const now = ref(dayjs());
@@ -108,14 +188,13 @@ const form = ref({
 function submitForm(deviceId) {
   const [startTimeStr, endTimeStr] = form.value.time;
   const today = dayjs();
-
+  const centerId = route.params.id;
   let start = dayjs(`${today.format('YYYY-MM-DD')}T${startTimeStr}:00+05:00`);
   let end = dayjs(`${today.format('YYYY-MM-DD')}T${endTimeStr}:00+05:00`);
 
   if (end.isBefore(start)) {
     end = end.add(1, 'day');
   }
-
   const jsonData = {
     device_id: deviceId,
     client_name: form.value.clientName || '',
@@ -124,7 +203,7 @@ function submitForm(deviceId) {
     end_time: end.format('YYYY-MM-DDTHH:mm:ssZ'),
   };
 
-  bookStore.createBooking(jsonData); // 👈 теперь отправляем как JSON, а не FormData
+  bookStore.createBooking(jsonData, centerId); // 👈 теперь отправляем как JSON, а не FormData
 }
 
 
@@ -205,6 +284,33 @@ watch(() => form.value.time, ([startTime, endTime]) => {
 
   total_summ.value = Math.round(total);
 });
+
+const currentPricePerHour = computed(() => {
+  const periods = props.device?.tariff_id?.periods || [];
+  const nowHour = dayjs().hour();
+
+  const matchedPeriod = periods.find(period => {
+    const from = period.start_hour;
+    const to = period.end_hour === 0 ? 24 : period.end_hour;
+    // Обычный интервал: 9-18
+    if (from < to) {
+      return nowHour >= from && nowHour < to;
+    } else {
+      // Ночной интервал: например, 22 - 2
+      return nowHour >= from || nowHour < to;
+    }
+  });
+
+  return matchedPeriod?.price_per_hour || '—';
+});
+
+function formatHour(hour) {
+  return `${hour.toString().padStart(2, '0')}:00`;
+}
+
+const formatTime = (isoString) => {
+  return dayjs(isoString).format('HH:mm');
+};
 </script>
 
 <style scoped>
