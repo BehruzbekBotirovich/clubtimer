@@ -13,6 +13,7 @@
   <div>
     <a-row :gutter="[20, 20]">
       <center-card :centers="centersStore.centers"/>
+      <card-sceleton-component v-if="loadingUrl.has('get-buildings')"/>
     </a-row>
   </div>
 </template>
@@ -21,12 +22,16 @@
 import {onMounted, shallowRef} from "vue";
 import useCenterStore from "@/store/center.pinia.js";
 import useModal from '@/store/modal.pinia.js'
-
+import useCore from "@/store/core.pinia.js";
 import CenterCard from "../components/CenterCard.vue";
 import IconCenterBuilding from "@/components/icons/IconCenterBuilding.vue";
 import CreateCenterModal from "@/pages/dashboard/centers/components/CreateCenterModal.vue";
+import {storeToRefs} from "pinia";
+import CardSceletonComponent from "@/components/CardSceletonComponent.vue";
 
 const modal = useModal();
+const core = useCore();
+const {loadingUrl} = storeToRefs(core)
 const centersStore = useCenterStore();
 onMounted(() => {
   centersStore.getBuildings()

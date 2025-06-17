@@ -31,7 +31,7 @@
       </div>
 
 
-      <a-dropdown :trigger="['click']">
+      <a-dropdown :trigger="['click']" v-if="user.role==='admin'">
         <a-button type="default" class="absolute right-2 top-2">
           <template #icon>
             <icon-three-dots class="text-xl"/>
@@ -48,7 +48,7 @@
             <a-menu-item key="0">
               <a-popconfirm :title="$t('accounts_page.account_delete_confirm')"
                             class="flex items-center gap-2" :ok-text="$t('header_component.yes')"
-                            :cancel-text="$t('header_component.no')" @confirm="deleteAccount(record.id)"
+                            :cancel-text="$t('header_component.no')" @confirm="deleteAccount(el._id)"
                             placement="left">
                 <icon-delete/>
                 <span>{{ $t('delete') }}</span>
@@ -65,12 +65,14 @@
 <script setup>
 import {defineProps, ref, shallowRef} from 'vue';
 import useModal from '@/store/modal.pinia.js';
-
+import useUser from "@/store/user.pinia.js";
 import IconLocation from "@/components/icons/IconLocation.vue";
 import IconMapPoint from "@/components/icons/IconMapPoint.vue";
 import IconClockTime from "@/components/icons/IconClockTime.vue";
 import IconThreeDots from "@/components/icons/IconThreeDots.vue";
 import UpdateCenterModal from "@/pages/dashboard/centers/components/UpdateCenterModal.vue";
+
+const user = useUser();
 const modal = useModal();
 const props = defineProps({
   centers: {

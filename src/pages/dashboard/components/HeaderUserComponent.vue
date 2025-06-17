@@ -21,7 +21,7 @@ const props = defineProps({
           {{ user?.fullName }}
         </h3>
         <p class="text-sm font-medium text-muted m-0 leading-[16px]">
-          {{ user?.organization?.name }}
+          {{ user?.role}}
         </p>
       </div>
       <div></div>

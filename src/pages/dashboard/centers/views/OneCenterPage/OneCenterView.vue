@@ -25,7 +25,7 @@ import {onMounted, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import useDevicesStore from "@/store/devices.pinia.js";
 
-import TimerCard from "@/pages/dashboard/centers/views/OneCenterPage/components/TimerCard.vue";
+import TimerCard from "@/pages/dashboard/centers/views/OneCenterPage/components/DeviceCard.vue";
 import IconDevicePlus from "@/components/icons/IconDevicePlus.vue";
 import IconArrowBack from "@/components/icons/IconArrowBack.vue";
 
