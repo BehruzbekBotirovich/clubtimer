@@ -2,7 +2,7 @@
   <a-col v-for="el in centers" :key="el._id" :lg="6">
     <a-card class="rounded-xl shadow-lg overflow-hidden border relative  border-gray-200" :hoverable="false">
       <template #cover>
-        <img alt="example" :src="'http://localhost:5000'+el.image_url" style="aspect-ratio: 3/2; object-fit: cover;"/>
+        <img alt="example" :src="URL + el.image_url" style="aspect-ratio: 3/2; object-fit: cover;"/>
       </template>
       <div class="text-base">
         <h3 class="text-xl font-semibold mb-1">{{ el.name }}</h3>
@@ -72,6 +72,7 @@ import IconClockTime from "@/components/icons/IconClockTime.vue";
 import IconThreeDots from "@/components/icons/IconThreeDots.vue";
 import UpdateCenterModal from "@/pages/dashboard/centers/components/UpdateCenterModal.vue";
 
+const URL = import.meta.env.VITE_APP_BASE_URL || "https://clubtimer-back.onrender.com"
 const user = useUser();
 const modal = useModal();
 const props = defineProps({

@@ -4,14 +4,16 @@ import useCore from "@/store/core.pinia.js";
 import useModal from "@/store/modal.pinia.js";
 import corePinia from "@/store/core.pinia.js";
 import useDevicesStore from "@/store/devices.pinia.js";
+import dayjs from "dayjs";
 
 const useBookingStore = defineStore('center', {
     state: () => ({
-        OneDeviceHistory:null,
+        OneDeviceHistory: null,
         loading: false,
     }),
     actions: {
         getOneDeviceBooking(deviceId) {
+            this.OneDeviceHistory = []
             const core = useCore()
             core.loading('get-one-device-timeline')
             api({
@@ -28,9 +30,8 @@ const useBookingStore = defineStore('center', {
                     core.loading('get-one-device-timeline')
                 });
         },
-        createBooking(data, centerId) {
+        createBooking(data, building_id) {
             const core = useCore()
-            const deviceStore = useDevicesStore()
             core.loading('create-booking')
             api({
                 url: '/bookings',
@@ -48,7 +49,7 @@ const useBookingStore = defineStore('center', {
                 })
                 .finally(() => {
                     core.loading('create-booking')
-                    deviceStore.getAllDevices(centerId)
+                    this.updateDevicePage(building_id)
                 })
         },
 
@@ -66,7 +67,6 @@ const useBookingStore = defineStore('center', {
                         locale: data.message,
                         type: 'success',
                     })
-                    this.getBuildings()
                     modalPinia.close(modalKey)
                 })
                 .catch((error) => {
@@ -75,6 +75,39 @@ const useBookingStore = defineStore('center', {
                 .finally(() => {
                     core.loading('update-booking')
                 })
+        },
+
+        addTimeToBooking(booking, time, building_id, deviceId) {
+            const newEndTime = dayjs(booking.end_time).add(time, 'minute').toISOString()
+            const core = useCore()
+            core.loading(`device/${deviceId}`)
+            api({
+                url: `/bookings/${booking._id}`,
+                method: 'PUT',
+                data: {
+                    end_time: newEndTime,
+                }
+            })
+                .then(({data}) => {
+                    core.setToast({
+                        locale: 'Vaqt qoshildi',
+                        type: 'success',
+                    })
+                    this.updateDevicePage(building_id)
+                })
+                .catch((error) => {
+                    core.setToast(error)
+                })
+                .finally(() => {
+                    core.loading(`device/${deviceId}`)
+                })
+        },
+        updateDevicePage(building_id) {
+            const deviceStore = useDevicesStore()
+            const params = {
+                building_id
+            }
+            deviceStore.getAllDevices(params)
         }
     },
 

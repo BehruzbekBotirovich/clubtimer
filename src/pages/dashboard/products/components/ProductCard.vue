@@ -24,6 +24,7 @@ const props = defineProps({
     required: true
   }
 })
+const URL = import.meta.env.VITE_APP_BASE_URL || 'https://clubtimer-back.onrender.com'
 
 function openEditModal(user) {
   modal.open({
@@ -41,7 +42,7 @@ function openEditModal(user) {
     <a-row v-for="el in data" :key="el.id" :gutter="[0, 10]"
            class="bg-white rounded-lg shadow-md p-4 flex items-center justify-between">
       <a-col :lg="6" class="flex items-center gap-4">
-        <a-image :width="50" :height="50" class="object-cover" :src="'http://localhost:5000'+ el.product_img"/>
+        <a-image :width="50" :height="50" class="object-cover" :src="URL+ el.product_img"/>
         <div class="text-base font-semibold">
           <div>{{ el.name }}</div>
           <div class="text-primary"><span class="text-base text-gray-500">Narxi: </span>{{ el.price }} sum</div>

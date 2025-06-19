@@ -1,107 +1,153 @@
 <template>
   <a-col :lg="8">
-    <div class="flex p-4 rounded-xl shadow-lg bg-white">
-      <!-- Левая часть: Инфо о девайсе -->
-      <a-col :lg="8" class="border-r pr-4  !px-0 relative">
-        <div class="flex justify-center items-center w-full mb-2">
-          <IconConsole v-if="device.type === 'PS'" class="text-6xl"/>
-          <IconBilliard v-if="device.type === 'table'" class="text-6xl"/>
-          <IconKaraoke v-if="device.type === 'karaoke'" class="text-6xl"/>
-        </div>
-        <h3 class="text-2xl font-bold text-gray-800 text-center">{{ device.name }}</h3>
-        <div class="text-center mt-2">
-          <p class="text-sm text-gray-600">Tariff: <strong>{{ device.tariff_id.tariff_name }}</strong></p>
-          <div class="text-sm text-gray-600">
-            <div class="mb-1">Hozirgi narxi:</div>
-            <a-tag color="blue">{{ currentPricePerHour }} so'm/soat</a-tag>
+    <a-spin :spinning="loadingUrl.has(`device/${device._id}`)">
+      <div class="flex p-4 rounded-xl shadow-lg bg-white">
+        <!-- Левая часть: Инфо о девайсе -->
+        <a-col :lg="8" class="border-r pr-4  !px-0 relative">
+          <div class="flex justify-center items-center w-full mb-2">
+            <IconConsole v-if="device.type === 'PS'" class="text-6xl"/>
+            <IconBilliard v-if="device.type === 'table'" class="text-6xl"/>
+            <IconKaraoke v-if="device.type === 'karaoke'" class="text-6xl"/>
           </div>
-        </div>
-        <a-button @click="showDrawer(device._id)" type="default" class="absolute -top-1 -left-1">
-          <template #icon>
-            <icon-info-circle class="text-lg"/>
-          </template>
-        </a-button>
-      </a-col>
-
-      <!-- Правая часть: Сессия если есть -->
-      <a-col v-if="device?.activeBooking" :lg="16" class="w-full space-y-2">
-        <div
-            :class="[colorClass, 'timer-display text-white text-center font-bold text-xl transition-all duration-500']">
-          {{ formattedTime }}
-        </div>
-        <div class="w-full bg-gray-300 rounded-full h-2 overflow-hidden">
-          <div :class="[colorClass, 'h-2 transition-all duration-500']" :style="{ width: `${progress}%` }"></div>
-        </div>
-        <div class="flex justify-between w-full text-sm text-gray-700">
-          <div class="bg-gray-100 px-3 py-2 rounded-md font-medium">
-            Start: {{ start.format('HH:mm') }}
-          </div>
-          <div class="bg-gray-100 px-3 py-2 rounded-md font-medium">
-            End: {{ end.format('HH:mm') }}
-          </div>
-        </div>
-        <div class="space-y-1">
-          <div>
-            <span class="text-gray-600">  Summa:</span> {{ device?.activeBooking?.total_price }}
-          </div>
-          <div v-if="device?.activeBooking?.client_name">
-            <span class="text-gray-600">  Mijoz:</span> {{ device?.activeBooking?.client_name }}
-          </div>
-          <div v-if="device?.activeBooking?.description">
-            <span class="text-gray-600">  Sharh:</span> {{ device?.activeBooking?.description }}
-          </div>
-        </div>
-      </a-col>
-      <!--      ЕСЛИ СВОБОДНО-->
-      <a-col v-else :lg="16" class="w-full space-y-4">
-        <div v-if="timeAddOpen === false">
-          <a-empty :description="null"/>
-          <a-button type="primary" class="mx-auto bg-green" @click="timeAddOpen = true">
-            <template #icon>
-              <icon-clock-add class="text-lg mr-1"/>
-            </template>
-            Sessiya ochish
-          </a-button>
-        </div>
-        <a-form v-else>
-          <a-form-item name="time" :rules="[{ required: true }]">
-            <h3>Vaqt oraligini tanlang</h3>
-            <a-time-range-picker
-                v-model:value="form.time"
-                format="HH:mm"
-                value-format="HH:mm"
-                class="w-full"
-            />
-          </a-form-item>
-          <a-form-item label="Mijoz">
-            <a-input v-model:value="form.clientName" type="text" size=""/>
-          </a-form-item>
-          <a-form-item label="Kommentariya">
-            <a-input v-model:value="form.description" type="text" size=""/>
-          </a-form-item>
-          <a-form-item label="Umimiy summa">
-            <a-input v-model:value="total_summ" type="number" size=""/>
-          </a-form-item>
-          <a-form-item class="flex items-center ">
-            <div class="flex items-center space-x-2">
-              <a-button @click="timeAddOpen =false" type="default" danger>
-                Bekor qilish
-              </a-button>
-              <a-button @click="submitForm(device._id)" type="primary">
-                Qo'shish
-              </a-button>
+          <h3 class="text-2xl font-bold text-gray-800 text-center">{{ device.name }}</h3>
+          <div class="text-center mt-2">
+            <p class="text-sm text-gray-600">Tariff: <strong>{{ device.tariff_id.tariff_name }}</strong></p>
+            <div class="text-sm text-gray-600">
+              <div class="mb-1">Hozirgi narxi:</div>
+              <a-tag color="blue">{{ currentPricePerHour }} so'm/soat</a-tag>
             </div>
-          </a-form-item>
-        </a-form>
-      </a-col>
-    </div>
+          </div>
+          <a-button @click="showDrawer(device._id)" type="default" class="absolute -top-1 -left-1">
+            <template #icon>
+              <icon-info-circle class="text-lg"/>
+            </template>
+          </a-button>
+        </a-col>
+
+        <!-- Правая часть: Сессия если есть -->
+        <a-col v-if="device?.activeBooking" :lg="16" class="w-full space-y-2">
+          <div
+              :class="[colorClass, 'timer-display text-white text-center font-bold text-xl transition-all duration-500']">
+            {{ formattedTime }}
+          </div>
+          <div class="w-full bg-gray-300 rounded-full h-2 overflow-hidden">
+            <div :class="[colorClass, 'h-2 transition-all duration-500']" :style="{ width: `${progress}%` }"></div>
+          </div>
+          <div class="flex justify-between w-full text-sm text-gray-700">
+            <div class="bg-gray-100 px-3 py-2 rounded-md font-medium">
+              Start: {{ start.format('HH:mm') }}
+            </div>
+            <div class="bg-gray-100 px-3 py-2 rounded-md font-medium">
+              End: {{ end.format('HH:mm') }}
+            </div>
+          </div>
+          <div class="flex w-full">
+            <a-button-group class="mx-auto">
+              <a-button type="primary" class="bg-red px-3 py-1 rounded">Tugatish</a-button>
+              <a-dropdown :trigger="['click']">
+                <a-button type="primary" class="bg-green  px-3 py-1 rounded">Uzaytirish</a-button>
+                <template #overlay>
+                  <a-menu class="w-fit">
+                    <a-menu-item
+                        @click="bookStore.addTimeToBooking(device.activeBooking, 5, buildingId, device._id  )"
+                        key="0"
+                        class="flex items-center gap-2">
+                      +5 minut
+                    </a-menu-item>
+                    <a-menu-item
+                        @click="bookStore.addTimeToBooking(device.activeBooking, 15, buildingId, device._id  )"
+                        key="1" class="flex items-center gap-2">
+                      +15 minut
+                    </a-menu-item>
+                    <a-menu-item
+                        @click="bookStore.addTimeToBooking(device.activeBooking, 30, buildingId, device._id  )"
+                        key="2">
+                      +30 minut
+                    </a-menu-item>
+                    <a-menu-item
+                        @click="bookStore.addTimeToBooking(device.activeBooking, 45, buildingId, device._id  )"
+                        key="3">
+                      +45 minut
+                    </a-menu-item>
+                    <a-menu-item
+                        @click="bookStore.addTimeToBooking(device.activeBooking, 60, buildingId, device._id  )"
+                        key="4">
+                      +1 soat
+                    </a-menu-item>
+                    <a-menu-item
+                        @click="bookStore.addTimeToBooking(device.activeBooking, 120, buildingId, device._id  )"
+                        key="5">
+                      +2 soat
+                    </a-menu-item>
+                  </a-menu>
+                </template>
+              </a-dropdown>
+            </a-button-group>
+          </div>
+          <div class="space-y-1">
+            <div>
+              <span class="text-gray-600">  Summa:</span> {{ device?.activeBooking?.total_price }}
+            </div>
+            <div v-if="device?.activeBooking?.client_name">
+              <span class="text-gray-600">  Mijoz:</span> {{ device?.activeBooking?.client_name }}
+            </div>
+            <div v-if="device?.activeBooking?.description">
+              <span class="text-gray-600">  Sharh:</span> {{ device?.activeBooking?.description }}
+            </div>
+          </div>
+        </a-col>
+        <!--      ЕСЛИ СВОБОДНО-->
+        <a-col v-else :lg="16" class="w-full space-y-4">
+          <div v-if="timeAddOpen === false">
+            <a-empty :description="null"/>
+            <a-button type="primary" class="mx-auto bg-green" @click="timeAddOpen = true">
+              <template #icon>
+                <icon-clock-add class="text-lg mr-1"/>
+              </template>
+              Sessiya ochish
+            </a-button>
+          </div>
+          <a-form v-else>
+            <a-form-item name="time" :rules="[{ required: true }]">
+              <h3>Vaqt oraligini tanlang</h3>
+              <a-time-range-picker
+                  v-model:value="form.time"
+                  format="HH:mm"
+                  value-format="HH:mm"
+                  class="w-full"
+              />
+            </a-form-item>
+            <a-form-item label="Mijoz">
+              <a-input v-model:value="form.clientName" type="text" size=""/>
+            </a-form-item>
+            <a-form-item label="Kommentariya">
+              <a-input v-model:value="form.description" type="text" size=""/>
+            </a-form-item>
+            <a-form-item label="Umimiy summa">
+              <a-input v-model:value="total_summ" type="number" size=""/>
+            </a-form-item>
+            <a-form-item class="flex items-center ">
+              <div class="flex items-center space-x-2">
+                <a-button @click="timeAddOpen =false" type="default" danger>
+                  Bekor qilish
+                </a-button>
+                <a-button @click="submitForm(device._id)" type="primary">
+                  Qo'shish
+                </a-button>
+              </div>
+            </a-form-item>
+          </a-form>
+        </a-col>
+      </div>
+    </a-spin>
   </a-col>
+
   <a-drawer
       v-model:open="open"
       :title="device.name"
       placement="right"
   >
-    <a-card title="Vaqt bo'yicha tariflar" size="small" class="mb-4 ">
+    <a-card title="Vaqt bo'yicha narxlar" size="small" class="mb-4 ">
       <div v-for="period in device.tariff_id.periods" :key="period._id" class="flex justify-between py-1 text-sm">
         <div>
           {{ formatHour(period.start_hour) }} - {{ formatHour(period.end_hour === 0 ? 24 : period.end_hour) }}
@@ -154,6 +200,7 @@ import IconInfoCircle from "@/components/icons/IconInfoCircle.vue";
 import {storeToRefs} from "pinia";
 import IconUserCheck from "@/components/icons/IconUserCheck.vue";
 import IconUserCog from "@/components/icons/IconUserCog.vue";
+import IconThreeDots from "@/components/icons/IconThreeDots.vue";
 
 const core = useCore();
 const route = useRoute();
@@ -162,18 +209,14 @@ const props = defineProps({
   device: Object,
 });
 const {loadingUrl} = storeToRefs(core)
-
+const buildingId = route.params.id;
 ///
 const open = ref(false);
-const afterOpenChange = bool => {
-  console.log('open', bool);
-};
 const showDrawer = (id) => {
   open.value = true;
   bookStore.getOneDeviceBooking(id)
 };
 ///
-
 const timeAddOpen = ref(false);
 const now = ref(dayjs());
 let timer = null;
@@ -188,7 +231,6 @@ const form = ref({
 function submitForm(deviceId) {
   const [startTimeStr, endTimeStr] = form.value.time;
   const today = dayjs();
-  const centerId = route.params.id;
   let start = dayjs(`${today.format('YYYY-MM-DD')}T${startTimeStr}:00+05:00`);
   let end = dayjs(`${today.format('YYYY-MM-DD')}T${endTimeStr}:00+05:00`);
 
@@ -203,7 +245,7 @@ function submitForm(deviceId) {
     end_time: end.format('YYYY-MM-DDTHH:mm:ssZ'),
   };
 
-  bookStore.createBooking(jsonData, centerId); // 👈 теперь отправляем как JSON, а не FormData
+  bookStore.createBooking(jsonData, buildingId);
 }
 
 

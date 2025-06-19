@@ -14,7 +14,7 @@ const useDevicesStore = defineStore('devices', {
             api({
                 url: '/devices',
                 method: 'GET',
-                params: params
+                params
             })
                 .then(({data}) => {
                     this.devices = data

@@ -1,5 +1,5 @@
 <script setup>
-import {ref, defineProps, shallowRef} from 'vue'
+import {ref, defineProps, shallowRef, onMounted} from 'vue'
 import dayjs from 'dayjs'
 import useEmployeesStore from "@/store/employee.pinia.js";
 import useCore from "@/store/core.pinia.js";
@@ -42,6 +42,12 @@ function openEditModal(user) {
     }
   })
 }
+
+onMounted(() => {
+  console.log('Full ENV:', import.meta.env); // покажет все переменные
+  console.log('BASE_URL:', import.meta.env.VITE_APP_BASE_URL);
+})
+const URL = import.meta.env.VITE_APP_BASE_URL || 'https://clubtimer-back.onrender.com'
 </script>
 
 <template>
@@ -50,7 +56,7 @@ function openEditModal(user) {
     <a-row v-for="el in data" :key="el.id" :gutter="[0, 10]"
            class="bg-white rounded-lg shadow-md p-4 flex items-center justify-between">
       <a-col :lg="6" class="flex items-center gap-4">
-        <a-avatar size="large" :src="'http://localhost:5000'+ el.avatar_url"/>
+        <a-avatar size="large" :src="URL + el.avatar_url"/>
         <div>
           <div class="text-base font-semibold">{{ el.fullName }}</div>
           <div class="text-sm text-gray-500">{{ el.email }}</div>
