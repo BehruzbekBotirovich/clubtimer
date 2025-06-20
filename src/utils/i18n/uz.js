@@ -59,6 +59,8 @@ export const uz = {
         CentersView: 'Nuqtalar',
         ProductsView: "Tovarlar",
         Devices: "Qurilmalar",
+        DevicesSetting:'Narxlar',
+        TariffView:'Tarifflar',
     },
     address: 'Manzil',
     region: 'Viloyat',

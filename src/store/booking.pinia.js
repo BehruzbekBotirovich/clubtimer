@@ -32,7 +32,7 @@ const useBookingStore = defineStore('center', {
         },
         createBooking(data, building_id) {
             const core = useCore()
-            core.loading('create-booking')
+            core.loading(`device/${data.device_id}`)
             api({
                 url: '/bookings',
                 method: 'POST',
@@ -48,7 +48,7 @@ const useBookingStore = defineStore('center', {
                     core.setToast(error)
                 })
                 .finally(() => {
-                    core.loading('create-booking')
+                    core.loading(`device/${data.device_id}`)
                     this.updateDevicePage(building_id)
                 })
         },
@@ -108,6 +108,32 @@ const useBookingStore = defineStore('center', {
                 building_id
             }
             deviceStore.getAllDevices(params)
+        },
+
+        stopThisTime(booking, building_id, deviceId) {
+            const newEndTime = new Date().toISOString()
+            const core = useCore()
+            core.loading(`device/${deviceId}`)
+            api({
+                url: `/bookings/${booking._id}`,
+                method: 'PUT',
+                data: {
+                    end_time: newEndTime,
+                }
+            })
+                .then(({data}) => {
+                    core.setToast({
+                        locale: 'Vaqt qoshildi',
+                        type: 'success',
+                    })
+                    this.updateDevicePage(building_id)
+                })
+                .catch((error) => {
+                    core.setToast(error)
+                })
+                .finally(() => {
+                    core.loading(`device/${deviceId}`)
+                })
         }
     },
 

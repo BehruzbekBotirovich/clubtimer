@@ -43,7 +43,10 @@
           </div>
           <div class="flex w-full">
             <a-button-group class="mx-auto">
-              <a-button type="primary" class="bg-red px-3 py-1 rounded">Tugatish</a-button>
+              <a-button
+                  @click="bookStore.stopThisTime(device.activeBooking,buildingId, device._id )"
+                  type="primary" class="bg-red px-3 py-1 rounded">Tugatish
+              </a-button>
               <a-dropdown :trigger="['click']">
                 <a-button type="primary" class="bg-green  px-3 py-1 rounded">Uzaytirish</a-button>
                 <template #overlay>
