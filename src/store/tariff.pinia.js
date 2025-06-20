@@ -72,9 +72,8 @@ const useTariffStore = defineStore('tariff', {
                 })
         },
 
-        updateTariff(id, formData, modalKey) {
+        updateTariff(id, formData) {
             const core = corePinia()
-            const modalPinia = useModal()
             core.loading('update-tariff')
             api({
                 url: `/tariffs/${id}`,
@@ -87,13 +86,12 @@ const useTariffStore = defineStore('tariff', {
                         type: 'success',
                     })
                     this.getAllTariffs()
-                    modalPinia.close(modalKey)
                 })
                 .catch((error) => {
                     core.setToast(error)
                 })
                 .finally(() => {
-                    core.loading('update-tariff')
+                    core.loading(`/tariffs/${id}`)
                 })
         }
     },

@@ -59,8 +59,8 @@ export const uz = {
         CentersView: 'Nuqtalar',
         ProductsView: "Tovarlar",
         Devices: "Qurilmalar",
-        DevicesSetting:'Narxlar',
-        TariffView:'Tarifflar',
+        DevicesSetting: 'Narxlar',
+        TariffView: 'Tarifflar',
     },
     address: 'Manzil',
     region: 'Viloyat',
@@ -96,6 +96,7 @@ export const uz = {
         sign_in: 'Tizimga kirish'
     },
     center: {
+        center_delete_confirm: "O'chirishni tasdiqlaysizmi?",
         center_create: 'Joy qo\'shish',
         center_update: 'Joy tahrirlash',
     },

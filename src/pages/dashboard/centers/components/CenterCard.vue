@@ -46,7 +46,7 @@
               </div>
             </a-menu-item>
             <a-menu-item key="0">
-              <a-popconfirm :title="$t('accounts_page.account_delete_confirm')"
+              <a-popconfirm :title="$t('center.center_delete_confirm')"
                             class="flex items-center gap-2" :ok-text="$t('header_component.yes')"
                             :cancel-text="$t('header_component.no')" @confirm="deleteAccount(el._id)"
                             placement="left">
