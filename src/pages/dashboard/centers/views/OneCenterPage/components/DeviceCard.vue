@@ -117,6 +117,7 @@
                   v-model:value="form.time"
                   format="HH:mm"
                   value-format="HH:mm"
+                  :minute-step="5"
                   class="w-full"
               />
             </a-form-item>
@@ -203,7 +204,7 @@ import IconInfoCircle from "@/components/icons/IconInfoCircle.vue";
 import {storeToRefs} from "pinia";
 import IconUserCheck from "@/components/icons/IconUserCheck.vue";
 import IconUserCog from "@/components/icons/IconUserCog.vue";
-import IconThreeDots from "@/components/icons/IconThreeDots.vue";
+import { calculateTotalSum, formatTime, formatHour } from '@/helpers/index.js'
 
 const core = useCore();
 const route = useRoute();
@@ -293,69 +294,10 @@ watch(() => form.value.time, ([startTime, endTime]) => {
     total_summ.value = null;
     return;
   }
-
   const periods = props.device?.tariff_id?.periods || [];
-  const start = dayjs(startTime, 'HH:mm');
-  const end = dayjs(endTime, 'HH:mm');
-
-  let total = 0;
-
-  // Времена начала и конца могут быть в разных сутках (например, 22:00 - 02:00)
-  let current = start.clone();
-  while (current.isBefore(end)) {
-    const hour = current.hour();
-    const nextHour = current.clone().add(1, 'hour');
-    const actualEnd = nextHour.isAfter(end) ? end : nextHour;
-
-    // Поиск тарифа для текущего часа
-    const matchedTariff = periods.find(p => {
-      const from = p.start_hour;
-      const to = p.end_hour === 0 ? 24 : p.end_hour;
-      if (from < to) {
-        return hour >= from && hour < to;
-      } else {
-        // Ночной тариф (например, 22 - 2)
-        return hour >= from || hour < to;
-      }
-    });
-
-    if (matchedTariff) {
-      const duration = actualEnd.diff(current, 'minute') / 60;
-      total += matchedTariff.price_per_hour * duration;
-    }
-
-    current = nextHour;
-  }
-
-  total_summ.value = Math.round(total);
+  total_summ.value = calculateTotalSum(periods, startTime, endTime);
 });
 
-const currentPricePerHour = computed(() => {
-  const periods = props.device?.tariff_id?.periods || [];
-  const nowHour = dayjs().hour();
-
-  const matchedPeriod = periods.find(period => {
-    const from = period.start_hour;
-    const to = period.end_hour === 0 ? 24 : period.end_hour;
-    // Обычный интервал: 9-18
-    if (from < to) {
-      return nowHour >= from && nowHour < to;
-    } else {
-      // Ночной интервал: например, 22 - 2
-      return nowHour >= from || nowHour < to;
-    }
-  });
-
-  return matchedPeriod?.price_per_hour || '—';
-});
-
-function formatHour(hour) {
-  return `${hour.toString().padStart(2, '0')}:00`;
-}
-
-const formatTime = (isoString) => {
-  return dayjs(isoString).format('HH:mm');
-};
 </script>
 
 <style scoped>

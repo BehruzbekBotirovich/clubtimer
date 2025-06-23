@@ -25,7 +25,8 @@ const navigations = [
         redirect: {name: 'CentersView'},
         meta: {
             showMenu: true,
-            icon: () => h(IconCenterBuilding)
+            icon: () => h(IconCenterBuilding),
+            roles: ['admin', 'employee']
         },
         children: [
             {
@@ -46,7 +47,8 @@ const navigations = [
         component: EmployeesPage,
         meta: {
             showMenu: true,
-            icon: () => h(IconTripleUser)
+            icon: () => h(IconTripleUser),
+            roles: ['admin']
         },
     },
     {
@@ -55,6 +57,7 @@ const navigations = [
         component: ProductsPage,
         meta: {
             showMenu: true,
+            roles: ['admin', 'employee'],
             icon: () => h(IconProduct)
         },
     },
@@ -64,6 +67,7 @@ const navigations = [
         component: StatisticsPage,
         meta: {
             showMenu: true,
+            roles: ['admin'],
             icon: () => h(IconAccount)
         },
     },
@@ -74,6 +78,7 @@ const navigations = [
         redirect: {name: 'TariffView'},
         meta: {
             showMenu: true,
+            roles: ['admin', 'employee'],
             icon: () => h(IconSettings)
         },
         children: [
@@ -83,8 +88,7 @@ const navigations = [
                 component: TariffSettingsPage,
                 meta: {
                     showMenu: true,
-                    icon: () => h(IconCoin)
-
+                    icon: () => h(IconCoin),
                 },
             },
             {

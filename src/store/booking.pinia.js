@@ -6,7 +6,7 @@ import corePinia from "@/store/core.pinia.js";
 import useDevicesStore from "@/store/devices.pinia.js";
 import dayjs from "dayjs";
 
-const useBookingStore = defineStore('center', {
+const useBookingStore = defineStore('booking', {
     state: () => ({
         OneDeviceHistory: null,
         loading: false,

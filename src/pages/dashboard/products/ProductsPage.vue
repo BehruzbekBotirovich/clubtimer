@@ -12,7 +12,7 @@
           @search="onSearch"
           class="w-80 mr-2"
       />
-      <a-button @click="openCreateModal" type="primary" size="large">
+      <a-button @click="openCreateModal" type="primary" size="large" v-if="userPinia.user.role == 'admin'">
         <template #icon>
           <icon-product-add class="text-xl mr-1"/>
         </template>
@@ -48,7 +48,9 @@ import useProductStore from '@/store/product.pinia.js'
 import ProductCard from "@/pages/dashboard/products/components/ProductCard.vue";
 import IconProductAdd from "@/components/icons/IconProductAdd.vue";
 import CreateProductModal from "@/pages/dashboard/products/components/CreateProductModal.vue";
+import useUser from "@/store/user.pinia.js";
 
+const userPinia = useUser();
 const productStore = useProductStore()
 const search = ref('')
 const currentPage = ref(1)

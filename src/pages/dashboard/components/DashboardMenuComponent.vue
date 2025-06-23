@@ -1,88 +1,94 @@
 <script setup>
-import {computed, h, ref} from 'vue'
+import {computed, h} from 'vue'
 import {useI18n} from 'vue-i18n'
 import {useRoute, useRouter} from 'vue-router'
-import IconChevronLeftDouble from '@/components/icons/IconChevronLeftDouble.vue'
-import IconChevronRightDouble from '@/components/icons/IconChevronRightDouble.vue'
+import {storeToRefs} from 'pinia'
 import navigations from '@/routers/navigations.js'
 import useCore from '@/store/core.pinia.js'
-import {storeToRefs} from 'pinia'
+import useUser from '@/store/user.pinia.js'
+import IconChevronLeftDouble from '@/components/icons/IconChevronLeftDouble.vue'
+import IconChevronRightDouble from '@/components/icons/IconChevronRightDouble.vue'
 
 const {t} = useI18n()
-
 const route = useRoute()
 const router = useRouter()
 
 const coreStore = useCore()
-
 const {collapsed} = storeToRefs(coreStore)
 
-const menuList = navigations
-    .filter((item) => item.meta?.showMenu)
-    .map((item) => {
-      const children = item.children?.filter((child) => child.meta?.showMenu).map((child) => ({
-        label: t(`menu.${child.name}`),
-        key: `/dashboard/${item.path}/${child.path}`, // 👈 полный путь
-        name: child.name,
-        icon: child.meta?.icon,
-      }))
+const userStore = useUser()
+const {user} = storeToRefs(userStore)
 
-      return {
-        label: t(`menu.${item.name}`),
-        key: `/dashboard/${item.path}`,
-        name: item.name,
-        icon: item.meta.icon,
-        children: children?.length ? children : undefined,
-      }
-    })
+function buildFullPath(parent, child = '') {
+  return `/dashboard/${parent}${child ? '/' + child : ''}`
+}
 
+const menuList = computed(() => {
+  return navigations
+      .filter(item => {
+        const roles = item.meta?.roles || []
+        return item.meta?.showMenu && (!roles.length || roles.includes(user.value.role))
+      })
+      .map(item => {
+        const children = item.children?.filter(child => {
+          const roles = child.meta?.roles || []
+          return child.meta?.showMenu && (!roles.length || roles.includes(user.value.role))
+        }).map(child => ({
+          label: t(`menu.${child.name}`),
+          key: buildFullPath(item.path, child.path),
+          name: child.name,
+          icon: child.meta.icon
+        }))
+
+        return {
+          label: t(`menu.${item.name}`),
+          key: buildFullPath(item.path),
+          name: item.name,
+          icon: item.meta.icon,
+          children: children?.length ? children : undefined
+        }
+      })
+})
 
 const selectedKeys = computed(() => [route.path])
 
 const openKeys = computed(() => {
-  // Получаем родительский путь, например: "/dashboard/settings"
-  const segments = route.path.split('/')
-  if (segments.length > 3) {
-    return [`/${segments[1]}/${segments[2]}`]
-  }
-  return []
+  const parts = route.path.split('/')
+  return parts.length >= 3 ? [`/dashboard/${parts[2]}`] : []
 })
 
-
-function navigate({key}) {
-  router.push(key)
+function navigate({item}) {
+  const allRoutes = navigations.flatMap(r => [r, ...(r.children || [])])
+  const found = allRoutes.find(r => r.name === item.name)
+  if (found) {
+    router.push({name: found.name})
+  }
 }
 </script>
 
 <template>
   <div class="h-full p-2 bg-white rounded-[16px]">
-    <div
-        class="flex items-center"
-        :class="[collapsed ? 'justify-center' : 'justify-between']"
-    >
+    <div class="flex items-center" :class="[collapsed ? 'justify-center' : 'justify-between']">
       <div v-if="!collapsed">
         <h1 class="font-medium text-sm m-0 px-2 uppercase text-muted">Menu</h1>
       </div>
-      <div>
-        <a-button @click="coreStore.changeCollapsed()" type="text">
-          <template #icon>
-            <IconChevronRightDouble v-if="collapsed" class="text-2xl"/>
-            <IconChevronLeftDouble v-else class="text-2xl"/>
-          </template>
-        </a-button>
-      </div>
+      <a-button @click="coreStore.changeCollapsed()" type="text">
+        <template #icon>
+          <IconChevronRightDouble v-if="collapsed" class="text-2xl"/>
+          <IconChevronLeftDouble v-else class="text-2xl"/>
+        </template>
+      </a-button>
     </div>
-    <div class="flex flex-col gap-[2px] w-full menu">
-      <a-menu
-          @click="navigate"
-          :selected-keys="selectedKeys"
-          :open-keys="openKeys"
-          :items="menuList"
-          :inline-collapsed="collapsed"
-          mode="inline"
-          class="ant-menu-custom-class"
-      />
-    </div>
+
+    <a-menu
+        class="ant-menu-custom-class menu"
+        mode="inline"
+        :inline-collapsed="collapsed"
+        :selected-keys="selectedKeys"
+        :open-keys="openKeys"
+        :items="menuList"
+        @click="navigate"
+    />
   </div>
 </template>
 
@@ -90,70 +96,58 @@ function navigate({key}) {
 @import '@/assets/styles/variable';
 
 .menu {
-  &:deep(.ant-menu-item) {
+  // Иконки одинаково большие везде
+  &:deep(.ant-menu-item-icon) {
+    width: 28px;
+    height: 28px;
+    font-size: 22px !important;
     display: flex;
     align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+  }
+
+  // Обычные пункты меню
+  &:deep(.ant-menu-item),
+  &:deep(.ant-menu-submenu-title) {
     font-size: 16px;
     font-weight: 500;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+    transition: background 0.3s;
+  }
 
-    .ant-menu-title-content {
-      line-height: 18px;
-    }
+  &:deep(.ant-menu-submenu .ant-menu-submenu-title) {
+    padding-left: 14px !important;
+  }
+
+  // Пункты в submenu — чуть больше отступа слева
+  &:deep(.ant-menu-sub .ant-menu-item) {
+    padding-left: 44px !important;
+    border-radius: 6px;
+    margin: 2px 8px;
+    font-size: 15px;
+  }
+
+  // Активные пункты
+  &:deep(.ant-menu-item-selected),
+  &:deep(.ant-menu-sub .ant-menu-item-selected),
+  &:deep(.ant-menu-submenu-selected > .ant-menu-submenu-title) {
+    background-color: $primary;
+    color: #fff !important;
 
     .ant-menu-item-icon {
-      font-size: 20px !important;
+      color: #fff !important;
     }
   }
 
-  &:deep(.ant-menu-item-selected) {
-    background: $primary;
-    color: #fff;
-  }
-}
-
-:deep(.ant-menu-submenu-title) {
-  padding-left: 16px !important;
-
-  svg {
-    font-size: 18px !important;
-  }
-}
-
-.menu {
-  &:deep( .ant-menu-sub .ant-menu-item) {
-    padding-left: 30px !important;
-    border-radius: 10px;
-    margin: 2px 8px;
-  }
-}
-
-.menu {
-  // Обычный размер
-  &:deep(.ant-menu-item-icon),
-  &:deep(.ant-menu-submenu-title .ant-menu-item-icon) {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 24px;
-    min-width: 24px;
-    height: 24px;
-    font-size: 20px !important;
-    margin-inline-end: 8px; // отступ между иконкой и текстом
-  }
-
-  // При collapsed — центрируем полностью
+  // Collapse поведение — центрируем иконки
   &:deep(.ant-menu-inline-collapsed .ant-menu-item-icon),
   &:deep(.ant-menu-inline-collapsed .ant-menu-submenu-title .ant-menu-item-icon) {
-    display: flex !important;
-    justify-content: center;
-    margin: 0 auto !important;
-  }
-}
-
-
-.settings-menu {
-  .setting-border {
-    border-top: 1px solid rgb($muted, 1);
+    margin: 0 auto;
   }
 }
 </style>
+.ant-menu-submenu .ant-menu-submenu-title

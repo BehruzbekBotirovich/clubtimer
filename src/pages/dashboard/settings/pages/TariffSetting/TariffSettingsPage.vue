@@ -82,7 +82,7 @@
               class="px-3 py-1 bg-gray-200 text-black rounded"
               @click="addPeriodToNewTariff"
           >
-            +  Interval
+            + Interval
           </a-button>
         </div>
       </div>
@@ -91,7 +91,7 @@
       <div
           v-for="(tariff, index) in editableTariffs"
           :key="tariff._id"
-          class="bg-white rounded-xl shadow p-4"
+          class="bg-white rounded-xl shadow p-4 h-fit"
       >
         <div class="mb-2">
           <input
@@ -223,14 +223,7 @@ function cancelNewTariff() {
   newTariff.value = null;
 }
 
-async function createNewTariff() {
-  try {
-    await tariffStore.createTariff(newTariff.value);
-    newTariff.value = null;
-    await tariffStore.getAllTariffs();
-  } catch (err) {
-    console.error(err);
-    alert("Ошибка при создании тарифа");
-  }
+function createNewTariff() {
+  tariffStore.createTariff(newTariff.value);
 }
 </script>

@@ -10,10 +10,12 @@ import timezone from 'dayjs/plugin/timezone'
 import IconDelete from "@/components/icons/IconDelete.vue";
 import {storeToRefs} from "pinia";
 import EditProductModal from "@/pages/dashboard/products/components/EditProductModal.vue";
+import useUser from "@/store/user.pinia.js";
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
 
+const userPinia = useUser()
 const store = useProductStore()
 const core = useCore()
 const modal = useModal()
@@ -64,7 +66,7 @@ function openEditModal(user) {
           {{ dayjs.utc(el.updatedAt).tz('Asia/Tashkent').format('DD.MM.YYYY HH:mm') }}
         </div>
       </a-col>
-      <a-col class="flex gap-2" :lg="2">
+      <a-col v-if="userPinia.user.role=='admin'" class="flex gap-2" :lg="2">
         <a-button @click="openEditModal(el)" type="primary">
           <template #icon>
             <icon-edit class="text-lg"/>
