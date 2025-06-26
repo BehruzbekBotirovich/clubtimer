@@ -27,7 +27,7 @@ const useDevicesStore = defineStore('devices', {
                 })
         },
 
-        createDevice(formData, modalKey, params) {
+        createDevice(formData, modalKey) {
             const core = corePinia()
             const modalPinia = useModal()
             core.loading('create-device')
@@ -43,7 +43,7 @@ const useDevicesStore = defineStore('devices', {
                     })
                     modalPinia.close(modalKey)
                     const params = {
-                        building: formData.building,
+                        building_id: formData.building_id,
                     }
                     this.getAllDevices(params)
                 })
