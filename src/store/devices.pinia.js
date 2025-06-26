@@ -27,7 +27,7 @@ const useDevicesStore = defineStore('devices', {
                 })
         },
 
-        createDevice(formData, modalKey) {
+        createDevice(formData, modalKey, params) {
             const core = corePinia()
             const modalPinia = useModal()
             core.loading('create-device')
@@ -42,7 +42,10 @@ const useDevicesStore = defineStore('devices', {
                         type: 'success',
                     })
                     modalPinia.close(modalKey)
-                    this.getAllDevices()
+                    const params = {
+                        building: formData.building,
+                    }
+                    this.getAllDevices(params)
                 })
                 .catch((error) => {
                     core.setToast(error)

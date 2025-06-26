@@ -7,7 +7,7 @@
       <h1 class="text-2xl font-semibold mb-0">{{ centerName }}</h1>
     </div>
     <div class="flex items-center justify-between">
-      <a-button type="primary" size="large">
+      <a-button type="primary" size="large" @click="openCreateDeviceModal" v-if="userPinia.user.role === 'admin'">
         <template #icon>
           <icon-device-plus class="text-xl mr-1"/>
         </template>
@@ -17,21 +17,25 @@
   </div>
   <a-row :gutter="[20, 20]">
     <a-skeleton :loading="loadingUrl.has('get-devices')"></a-skeleton>
-    <TimerCard v-for="item in store.devices" :device="item" :key="item._id"/>
+    <DeviceCardTimer v-for="item in store.devices" :device="item" :key="item._id"/>
   </a-row>
 </template>
 
 <script setup>
-import {onMounted, ref} from "vue";
+import {onMounted, ref, shallowRef} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import useDevicesStore from "@/store/devices.pinia.js";
 import useCore from "@/store/core.pinia.js";
-import TimerCard from "@/pages/dashboard/centers/views/OneCenterPage/components/DeviceCard.vue";
+import DeviceCardTimer from "@/pages/dashboard/centers/views/OneCenterPage/components/DeviceCard.vue";
 import IconDevicePlus from "@/components/icons/IconDevicePlus.vue";
 import IconArrowBack from "@/components/icons/IconArrowBack.vue";
-import DeviceCardSceleton from "@/components/DeviceCardSceleton.vue";
 import {storeToRefs} from "pinia";
+import CreateDeviceModal from "@/pages/dashboard/centers/views/OneCenterPage/components/CreateDeviceModal.vue";
+import useModal from "@/store/modal.pinia.js";
+import useUser from '@/store/user.pinia.js'
 
+const userPinia = useUser()
+const modal = useModal()
 const core = useCore();
 const route = useRoute();
 const router = useRouter();
@@ -46,6 +50,14 @@ onMounted(() => {
   store.getAllDevices(params)
 })
 
+function openCreateDeviceModal() {
+  modal.open({
+    component: shallowRef(CreateDeviceModal),
+    props: {
+      building_id
+    }
+  })
+}
 </script>
 
 <style scoped></style>

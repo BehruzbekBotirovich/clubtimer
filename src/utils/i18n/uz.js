@@ -100,6 +100,10 @@ export const uz = {
         center_create: 'Joy qo\'shish',
         center_update: 'Joy tahrirlash',
     },
+    device:{
+      add:'Qurilma qo\'shish',
+    },
+    type:"Turi",
     edit: 'Tahrirlash',
     delete: 'O\'chirish',
     contact: 'Telefon raqami',

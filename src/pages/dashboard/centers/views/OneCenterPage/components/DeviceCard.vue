@@ -26,9 +26,14 @@
 
         <!-- Правая часть: Сессия если есть -->
         <a-col v-if="device?.activeBooking" :lg="16" class="w-full space-y-2">
-          <div
-              :class="[colorClass, 'timer-display text-white text-center font-bold text-xl transition-all duration-500']">
-            {{ formattedTime }}
+          <div class="flex justify-between items-center w-full mb-2">
+            <div
+                :class="[colorClass, 'timer-display text-white text-center font-bold text-xl transition-all duration-500']">
+              {{ formattedTime }}
+            </div>
+            <a-button type="primary">
+              <icon-edit/>
+            </a-button>
           </div>
           <div class="w-full bg-gray-300 rounded-full h-2 overflow-hidden">
             <div :class="[colorClass, 'h-2 transition-all duration-500']" :style="{ width: `${progress}%` }"></div>
@@ -90,12 +95,6 @@
           <div class="space-y-1">
             <div>
               <span class="text-gray-600">  Summa:</span> {{ device?.activeBooking?.total_price }}
-            </div>
-            <div v-if="device?.activeBooking?.client_name">
-              <span class="text-gray-600">  Mijoz:</span> {{ device?.activeBooking?.client_name }}
-            </div>
-            <div v-if="device?.activeBooking?.description">
-              <span class="text-gray-600">  Sharh:</span> {{ device?.activeBooking?.description }}
             </div>
           </div>
         </a-col>
@@ -204,7 +203,8 @@ import IconInfoCircle from "@/components/icons/IconInfoCircle.vue";
 import {storeToRefs} from "pinia";
 import IconUserCheck from "@/components/icons/IconUserCheck.vue";
 import IconUserCog from "@/components/icons/IconUserCog.vue";
-import { calculateTotalSum, formatTime, formatHour } from '@/helpers/index.js'
+import {calculateTotalSum, formatTime, formatHour} from '@/helpers/index.js'
+import IconEdit from "@/components/icons/IconEdit.vue";
 
 const core = useCore();
 const route = useRoute();

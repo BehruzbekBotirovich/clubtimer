@@ -172,8 +172,10 @@ const tariffStore = useTariffStore();
 const editableTariffs = ref([]);
 const newTariff = ref(null);
 
-onMounted(async () => {
-  await tariffStore.getAllTariffs();
+onMounted(() => {
+  if (tariffStore.tariffs.length === 0) {
+    tariffStore.getAllTariffs();
+  }
 });
 
 watch(
