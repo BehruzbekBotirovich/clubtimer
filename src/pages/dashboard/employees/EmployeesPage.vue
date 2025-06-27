@@ -21,7 +21,7 @@
     </div>
   </div>
 
-  <a-spin :spinning="loadingUrl.has('get-employees')">
+  <page-loader-component :loading="loadingUrl.has('get-employees')">
     <EmployeeCard :data="employeeStore.employees"/>
     <div class="flex justify-end mt-4">
       <a-pagination
@@ -34,7 +34,7 @@
           :pageSizeOptions="['10', '20', '50', '100']"
       />
     </div>
-  </a-spin>
+  </page-loader-component>
 </template>
 
 <script setup>
@@ -45,6 +45,7 @@ import EmployeeCard from './components/EmployeeCard.vue'
 import useCore from "@/store/core.pinia.js"
 import useModal from '@/store/modal.pinia.js'
 import {storeToRefs} from "pinia"
+import PageLoaderComponent from "@/components/PageLoaderComponent.vue";
 
 const search = ref('')
 const currentPage = ref(1)

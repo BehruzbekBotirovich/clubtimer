@@ -1,4 +1,5 @@
 <template>
+  <page-loader-component :loading="loadingUrl.has('get-tariff')">
   <div>
     <div class="flex items-center justify-between">
       <h1 class="text-2xl font-semibold py-6">
@@ -50,9 +51,8 @@
                 min="0"
                 max="23"
             />
-            <input
+            <a-input
                 v-model.number="period.price_per_hour"
-                type="number"
                 class="border px-2 py-1 rounded text-green-600 font-semibold"
                 placeholder="Price"
             />
@@ -66,7 +66,7 @@
           </div>
         </div>
 
-        <div class="flex gap-2">
+        <div class="flex flex-wrap gap-2">
           <a-button type="primary"
                     @click="createNewTariff"
           >
@@ -110,12 +110,12 @@
           <div
               v-for="(period, pIdx) in tariff.periods"
               :key="pIdx"
-              class="grid grid-cols-4 gap-2 items-center"
+              class="flex  gap-2 items-center"
           >
             <input
                 v-model.number="period.start_hour"
                 type="number"
-                class="border px-2 py-1 rounded"
+                class="border w-1/2 px-2 py-1 rounded"
                 placeholder="Start"
                 min="0"
                 max="23"
@@ -123,15 +123,14 @@
             <input
                 v-model.number="period.end_hour"
                 type="number"
-                class="border px-2 py-1 rounded"
+                class="border w-1/2 px-2 py-1 rounded"
                 placeholder="End"
                 min="0"
                 max="23"
             />
             <input
                 v-model.number="period.price_per_hour"
-                type="number"
-                class="border px-2 py-1 rounded text-green-600 font-semibold"
+                class="border w-full px-2 py-1 rounded text-green-600 font-semibold"
                 placeholder="Price"
             />
             <a-button
@@ -161,14 +160,20 @@
       </div>
     </div>
   </div>
+  </page-loader-component>
+
 </template>
 
 <script setup>
 import {ref, onMounted, watch} from "vue";
 import useTariffStore from "@/store/tariff.pinia.js";
+import PageLoaderComponent from "@/components/PageLoaderComponent.vue";
+import useCore from "@/store/core.pinia.js";
+import {storeToRefs} from "pinia";
 
 const tariffStore = useTariffStore();
-
+const core = useCore();
+const {loadingUrl} = storeToRefs(core)
 const editableTariffs = ref([]);
 const newTariff = ref(null);
 

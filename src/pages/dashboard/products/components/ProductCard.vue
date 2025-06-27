@@ -54,13 +54,13 @@ function openEditModal(user) {
         <div class="text-sm text-gray-400 text-left">{{ $t('category') }}</div>
         <div class="text-gray-600 text-left">{{ $t(el.category) }}</div>
       </a-col>
-      <a-col :lg="2">
+      <a-col :lg="4">
         <div class="text-sm text-gray-400 text-left">Tizimga qoshildi</div>
         <div class="text-gray-600 text-left">
           {{ dayjs.utc(el.createdAt).tz('Asia/Tashkent').format('DD.MM.YYYY HH:mm') }}
         </div>
       </a-col>
-      <a-col :lg="2">
+      <a-col :lg="4">
         <div class="text-sm text-gray-400 text-left">Ohirgi yangilanish</div>
         <div class="text-gray-600 text-left">
           {{ dayjs.utc(el.updatedAt).tz('Asia/Tashkent').format('DD.MM.YYYY HH:mm') }}
@@ -85,9 +85,7 @@ function openEditModal(user) {
           </a-button>
         </a-popconfirm>
       </a-col>
-
     </a-row>
-
   </div>
 
 </template>

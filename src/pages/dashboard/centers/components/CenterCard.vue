@@ -2,7 +2,7 @@
   <a-col v-for="el in centers" :key="el._id" :lg="6">
     <a-card class="rounded-xl shadow-lg overflow-hidden border relative  border-gray-200" :hoverable="false">
       <template #cover>
-        <img alt="example" :src="URL + el.image_url" style="aspect-ratio: 3/2; object-fit: cover;"/>
+        <a-image alt="example" :src="URL + el.image_url" style="aspect-ratio: 3/2; object-fit: cover;"/>
       </template>
       <div class="text-base">
         <h3 class="text-xl font-semibold mb-1">{{ el.name }}</h3>

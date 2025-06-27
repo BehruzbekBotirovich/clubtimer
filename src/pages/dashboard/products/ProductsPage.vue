@@ -1,4 +1,5 @@
 <template>
+
   <div class="flex items-center justify-between">
     <h1 class="text-2xl font-semibold py-6">
       Tovarlar ({{ productStore.products.length }})
@@ -20,8 +21,7 @@
       </a-button>
     </div>
   </div>
-
-  <a-spin :spinning="loadingUrl.has('get-products')">
+  <page-loader-component :loading="loadingUrl.has('get-products')">
     <ProductCard :data="productStore.products"/>
     <div class="flex justify-end mt-4">
       <a-pagination
@@ -34,7 +34,7 @@
           :pageSizeOptions="['10', '20', '50', '100']"
       />
     </div>
-  </a-spin>
+  </page-loader-component>
 </template>
 
 <script setup>
@@ -49,6 +49,7 @@ import ProductCard from "@/pages/dashboard/products/components/ProductCard.vue";
 import IconProductAdd from "@/components/icons/IconProductAdd.vue";
 import CreateProductModal from "@/pages/dashboard/products/components/CreateProductModal.vue";
 import useUser from "@/store/user.pinia.js";
+import PageLoaderComponent from "@/components/PageLoaderComponent.vue";
 
 const userPinia = useUser();
 const productStore = useProductStore()
