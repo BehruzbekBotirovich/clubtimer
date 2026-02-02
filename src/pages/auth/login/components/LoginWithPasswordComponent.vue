@@ -34,8 +34,7 @@ function submitForm() {
 </script>
 
 <template>
-  <a-card class="w-[460px] border-none">
-
+  <a-card class="md:w-[460px] border-none">
     <a-form ref="formRef" :model="form">
       <div class="flex gap-2">
         <div class="flex-grow">
